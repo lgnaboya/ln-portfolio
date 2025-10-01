@@ -1,0 +1,23 @@
+const Navigation = () => {
+  return (
+    <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-4 backdrop-blur-md bg-background/80 border-b border-border">
+      <div className="max-w-7xl mx-auto flex items-center justify-between">
+        <a 
+          href="#home" 
+          className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent hover:opacity-80 transition-opacity"
+        >
+          LGN
+        </a>
+        
+        <a
+          href="mailto:loudettgleacnaboya@gmail.com"
+          className="px-6 py-2 rounded-lg bg-gradient-primary text-primary-foreground font-medium hover:shadow-glow transition-all duration-300 hover:scale-105"
+        >
+          Get in Touch
+        </a>
+      </div>
+    </nav>
+  );
+};
+
+export default Navigation;
