@@ -64,26 +64,51 @@ const Hero = () => {
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
         {/* 3D Draggable Lanyard Profile Card */}
         <div className="flex justify-center md:justify-end animate-fade-in">
-          <div className="relative pt-24">
-            {/* Lanyard String - More visible */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-24 bg-gradient-to-b from-primary/60 via-primary/40 to-transparent rounded-full">
-              {/* Lanyard texture */}
-              <div className="absolute inset-0 bg-repeat-y opacity-30" 
-                style={{
-                  backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 3px, hsl(var(--primary) / 0.3) 3px, hsl(var(--primary) / 0.3) 4px)',
-                  backgroundSize: '100% 8px'
-                }}
-              />
+          <div 
+            className="relative pt-24"
+            style={{ 
+              transform: `translate(${position.x}px, ${position.y}px)`,
+            }}
+          >
+            {/* Thick Lanyard String - ID style */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-4 h-24">
+              {/* Main lanyard ribbon */}
+              <div className="w-full h-full bg-gradient-to-b from-primary/70 via-primary/50 to-primary/30 rounded-sm shadow-lg">
+                {/* Woven texture pattern */}
+                <div className="absolute inset-0 bg-repeat-y opacity-40" 
+                  style={{
+                    backgroundImage: `
+                      repeating-linear-gradient(90deg, 
+                        transparent, 
+                        transparent 2px, 
+                        hsl(var(--primary) / 0.4) 2px, 
+                        hsl(var(--primary) / 0.4) 3px
+                      ),
+                      repeating-linear-gradient(0deg, 
+                        transparent, 
+                        transparent 3px, 
+                        hsl(var(--primary) / 0.2) 3px, 
+                        hsl(var(--primary) / 0.2) 4px
+                      )
+                    `,
+                  }}
+                />
+                {/* Edge highlights */}
+                <div className="absolute left-0 w-[1px] h-full bg-gradient-to-b from-primary to-transparent" />
+                <div className="absolute right-0 w-[1px] h-full bg-gradient-to-b from-primary to-transparent" />
+              </div>
             </div>
             
-            {/* Lanyard Clip */}
-            <div className="absolute top-20 left-1/2 -translate-x-1/2 w-6 h-4 bg-muted border border-border rounded-sm shadow-lg" />
+            {/* Lanyard Clip/Hook */}
+            <div className="absolute top-20 left-1/2 -translate-x-1/2 w-8 h-5 bg-muted-foreground/80 border-2 border-border rounded-md shadow-lg">
+              {/* Clip detail */}
+              <div className="absolute inset-1 border border-border/30 rounded-sm" />
+            </div>
             
             {/* 3D Card Container */}
             <div 
               style={{ 
                 perspective: '1000px',
-                transform: `translate(${position.x}px, ${position.y}px)`,
               }}
             >
               <div
