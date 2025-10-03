@@ -133,8 +133,7 @@ const ProjectsSection = () => {
           </h3>
           <div className="relative" style={{ minHeight: `${gameProjects.length * 400}px` }}>
             {gameProjects.map((project, index) => {
-              const stackIndex = gameProjects.length - 1 - index;
-              const progress = scrollProgress * gameProjects.length - stackIndex;
+              const progress = scrollProgress * gameProjects.length - index;
               const isActive = progress >= 0 && progress <= 1;
               const isPast = progress > 1;
               
@@ -143,8 +142,8 @@ const ProjectsSection = () => {
                   key={index}
                   className="sticky w-full transition-all duration-300"
                   style={{
-                    top: `${120 + stackIndex * 20}px`,
-                    zIndex: stackIndex,
+                    top: `${120 + index * 20}px`,
+                    zIndex: gameProjects.length - index + (isPast ? 100 : 0),
                     opacity: isPast ? 0 : 1,
                     transform: isPast 
                       ? 'translateY(-100px) scale(0.95)' 
@@ -168,9 +167,8 @@ const ProjectsSection = () => {
           </h3>
           <div className="relative" style={{ minHeight: `${webProjects.length * 400}px` }}>
             {webProjects.map((project, index) => {
-              const stackIndex = webProjects.length - 1 - index;
               const baseProgress = gameProjects.length;
-              const progress = scrollProgress * (gameProjects.length + webProjects.length) - baseProgress - stackIndex;
+              const progress = scrollProgress * (gameProjects.length + webProjects.length) - baseProgress - index;
               const isActive = progress >= 0 && progress <= 1;
               const isPast = progress > 1;
               
@@ -179,8 +177,8 @@ const ProjectsSection = () => {
                   key={index}
                   className="sticky w-full transition-all duration-300"
                   style={{
-                    top: `${120 + stackIndex * 20}px`,
-                    zIndex: stackIndex,
+                    top: `${120 + index * 20}px`,
+                    zIndex: webProjects.length - index + (isPast ? 100 : 0),
                     opacity: isPast ? 0 : 1,
                     transform: isPast 
                       ? 'translateY(-100px) scale(0.95)' 
