@@ -1,56 +1,118 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import profilePhoto from "@/assets/profile-photo.jpg";
 
 const Hero = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [velocity, setVelocity] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
-  const [rotation, setRotation] = useState({ x: 0, y: 0 });
-  const dragRef = useRef<{ startX: number; startY: number; elemX: number; elemY: number }>({
+  const [swingRotation, setSwingRotation] = useState(0);
+  const dragRef = useRef<{ 
+    startX: number; 
+    startY: number; 
+    elemX: number; 
+    elemY: number;
+    lastTime: number;
+    lastX: number;
+    lastY: number;
+  }>({
     startX: 0,
     startY: 0,
     elemX: 0,
     elemY: 0,
+    lastTime: 0,
+    lastX: 0,
+    lastY: 0,
   });
+  const animationRef = useRef<number>();
+
+  // Swinging physics animation
+  useEffect(() => {
+    if (isDragging) {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+      return;
+    }
+
+    const animate = () => {
+      setPosition(prev => {
+        const newX = prev.x + velocity.x;
+        const newY = prev.y + velocity.y;
+        return { x: newX, y: newY };
+      });
+
+      setVelocity(prev => ({
+        x: prev.x * 0.95, // damping
+        y: prev.y * 0.95,
+      }));
+
+      setSwingRotation(prev => {
+        const target = velocity.x * -0.5;
+        return prev + (target - prev) * 0.1;
+      });
+
+      // Spring back to center
+      setPosition(prev => ({
+        x: prev.x * 0.95,
+        y: prev.y * 0.95,
+      }));
+
+      if (Math.abs(velocity.x) > 0.1 || Math.abs(velocity.y) > 0.1 || Math.abs(position.x) > 0.1 || Math.abs(position.y) > 0.1) {
+        animationRef.current = requestAnimationFrame(animate);
+      }
+    };
+
+    if (Math.abs(velocity.x) > 0.1 || Math.abs(velocity.y) > 0.1) {
+      animationRef.current = requestAnimationFrame(animate);
+    }
+
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
+  }, [velocity, isDragging, position.x, position.y]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
+    const now = Date.now();
     dragRef.current = {
       startX: e.clientX,
       startY: e.clientY,
       elemX: position.x,
       elemY: position.y,
+      lastTime: now,
+      lastX: e.clientX,
+      lastY: e.clientY,
     };
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!isDragging) return;
+    
+    const now = Date.now();
+    const dt = now - dragRef.current.lastTime;
+    
+    if (dt > 0) {
+      const vx = (e.clientX - dragRef.current.lastX) / dt * 16;
+      const vy = (e.clientY - dragRef.current.lastY) / dt * 16;
+      setVelocity({ x: vx, y: vy });
+    }
+
     const deltaX = e.clientX - dragRef.current.startX;
     const deltaY = e.clientY - dragRef.current.startY;
     setPosition({
       x: dragRef.current.elemX + deltaX,
       y: dragRef.current.elemY + deltaY,
     });
+
+    dragRef.current.lastTime = now;
+    dragRef.current.lastX = e.clientX;
+    dragRef.current.lastY = e.clientY;
   };
 
   const handleMouseUp = () => {
     setIsDragging(false);
-  };
-
-  const handleCardMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (isDragging) return;
-    const card = e.currentTarget;
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const rotateX = (y - centerY) / 10;
-    const rotateY = (centerX - x) / 10;
-    setRotation({ x: rotateX, y: rotateY });
-  };
-
-  const handleCardMouseLeave = () => {
-    setRotation({ x: 0, y: 0 });
   };
 
   return (
@@ -62,50 +124,60 @@ const Hero = () => {
       onMouseLeave={handleMouseUp}
     >
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-        {/* 3D Draggable Lanyard Profile Card */}
+        {/* Draggable Lanyard Profile Card */}
         <div className="flex justify-center md:justify-end animate-fade-in">
           <div 
-            className="relative pt-24"
+            className="relative pt-32"
             style={{ 
-              transform: `translate(${position.x}px, ${position.y}px)`,
+              transform: `translate(${position.x}px, ${position.y}px) rotate(${swingRotation}deg)`,
+              transformOrigin: 'top center',
+              transition: isDragging ? 'none' : 'transform 0.3s ease-out',
             }}
           >
-            {/* Thick Lanyard String - ID style */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-4 h-24">
-              {/* Main lanyard ribbon */}
-              <div className="w-full h-full bg-gradient-to-b from-primary/70 via-primary/50 to-primary/30 rounded-sm shadow-lg">
-                {/* Woven texture pattern */}
-                <div className="absolute inset-0 bg-repeat-y opacity-40" 
+            {/* Lanyard String - Woven fabric style */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-5 h-32">
+              {/* Main lanyard ribbon with gradient */}
+              <div className="relative w-full h-full bg-gradient-to-b from-primary via-primary/80 to-primary/60 rounded-sm shadow-xl overflow-hidden">
+                {/* Woven fabric texture */}
+                <div className="absolute inset-0 opacity-30" 
                   style={{
                     backgroundImage: `
                       repeating-linear-gradient(90deg, 
-                        transparent, 
-                        transparent 2px, 
-                        hsl(var(--primary) / 0.4) 2px, 
-                        hsl(var(--primary) / 0.4) 3px
+                        hsl(var(--primary) / 0.8) 0px, 
+                        hsl(var(--primary) / 0.6) 2px, 
+                        hsl(var(--primary) / 0.8) 4px
                       ),
                       repeating-linear-gradient(0deg, 
-                        transparent, 
-                        transparent 3px, 
-                        hsl(var(--primary) / 0.2) 3px, 
-                        hsl(var(--primary) / 0.2) 4px
+                        transparent 0px, 
+                        hsl(0 0% 100% / 0.1) 2px, 
+                        transparent 4px
                       )
                     `,
                   }}
                 />
-                {/* Edge highlights */}
-                <div className="absolute left-0 w-[1px] h-full bg-gradient-to-b from-primary to-transparent" />
-                <div className="absolute right-0 w-[1px] h-full bg-gradient-to-b from-primary to-transparent" />
+                {/* Center stitching line */}
+                <div className="absolute left-1/2 -translate-x-1/2 w-[1px] h-full bg-primary-foreground/20" />
+                {/* Edge highlights for 3D effect */}
+                <div className="absolute left-0 w-[2px] h-full bg-gradient-to-r from-primary-foreground/30 to-transparent" />
+                <div className="absolute right-0 w-[2px] h-full bg-gradient-to-l from-black/30 to-transparent" />
               </div>
             </div>
             
-            {/* Lanyard Clip/Hook */}
-            <div className="absolute top-20 left-1/2 -translate-x-1/2 w-8 h-5 bg-muted-foreground/80 border-2 border-border rounded-md shadow-lg">
-              {/* Clip detail */}
-              <div className="absolute inset-1 border border-border/30 rounded-sm" />
+            {/* Metal Lanyard Clip */}
+            <div className="absolute top-28 left-1/2 -translate-x-1/2 z-10">
+              <div className="relative w-10 h-6">
+                {/* Clip body */}
+                <div className="absolute inset-0 bg-gradient-to-b from-zinc-400 to-zinc-600 rounded-md shadow-lg border border-zinc-500">
+                  <div className="absolute inset-[2px] bg-gradient-to-b from-zinc-300 to-zinc-500 rounded-sm" />
+                  {/* Clip opening */}
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-3 bg-background/50 rounded-sm" />
+                </div>
+                {/* Clip shine */}
+                <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-white/40 to-transparent rounded-t-md pointer-events-none" />
+              </div>
             </div>
             
-            {/* 3D Card Container */}
+            {/* ID Badge Card */}
             <div 
               style={{ 
                 perspective: '1000px',
@@ -113,44 +185,50 @@ const Hero = () => {
             >
               <div
                 style={{
-                  transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg)`,
                   transformStyle: 'preserve-3d',
                   cursor: isDragging ? 'grabbing' : 'grab',
-                  transition: isDragging ? 'none' : 'transform 0.3s ease-out',
                 }}
                 onMouseDown={handleMouseDown}
-                onMouseMove={handleCardMouseMove}
-                onMouseLeave={handleCardMouseLeave}
-                className="relative bg-gradient-card backdrop-blur-xl border border-[var(--glass-border)] rounded-2xl p-6 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-glow)] transition-shadow duration-300"
+                className="relative bg-gradient-card backdrop-blur-xl border-2 border-[var(--glass-border)] rounded-3xl p-8 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-glow)] transition-shadow duration-500 w-80"
               >
-                {/* Card shine effect */}
-                <div 
-                  className="absolute inset-0 rounded-2xl pointer-events-none"
-                  style={{
-                    background: `linear-gradient(135deg, 
-                      transparent 0%, 
-                      hsl(var(--primary) / 0.1) ${50 + rotation.y * 2}%, 
-                      transparent 100%)`,
-                  }}
-                />
+                {/* Top accent bar - like real ID badges */}
+                <div className="absolute top-0 left-0 right-0 h-3 bg-gradient-primary rounded-t-3xl" />
                 
-                <div className="flex flex-col items-center gap-4 relative" style={{ transform: 'translateZ(20px)' }}>
-                  {/* Hole punch at top */}
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-background border border-border shadow-inner" />
-                  
-                  <div className="w-48 h-48 rounded-xl overflow-hidden border-2 border-primary/30 shadow-lg">
+                {/* Hole punch at top for lanyard */}
+                <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-background border-2 border-border shadow-inner z-20" />
+                
+                {/* Card content */}
+                <div className="flex flex-col items-center gap-6 relative pt-4" style={{ transform: 'translateZ(20px)' }}>
+                  {/* Profile Photo - larger and more prominent */}
+                  <div className="w-56 h-56 rounded-2xl overflow-hidden border-4 border-primary/20 shadow-2xl ring-2 ring-primary/10">
                     <img 
                       src={profilePhoto} 
-                      alt="Profile" 
+                      alt="Profile Photo - Loudett Gleac Naboya" 
                       className="w-full h-full object-cover"
                       draggable={false}
                     />
                   </div>
-                  <div className="text-center">
-                    <h3 className="text-xl font-bold text-foreground">Loudett Gleac Naboya</h3>
-                    <p className="text-sm text-muted-foreground">UI/UX Designer & Developer</p>
+                  
+                  {/* Info section */}
+                  <div className="text-center space-y-2 w-full">
+                    <h3 className="text-2xl font-bold text-foreground">Loudett Gleac Naboya</h3>
+                    <p className="text-base text-primary font-medium">UI/UX Designer & Developer</p>
+                    
+                    {/* Badge details */}
+                    <div className="pt-4 mt-4 border-t border-border/50 space-y-1">
+                      <p className="text-xs text-muted-foreground uppercase tracking-wider">Portfolio Badge</p>
+                      <p className="text-xs text-muted-foreground/60">Est. 2024</p>
+                    </div>
                   </div>
                 </div>
+                
+                {/* Subtle pattern overlay */}
+                <div className="absolute inset-0 rounded-3xl pointer-events-none opacity-5"
+                  style={{
+                    backgroundImage: `radial-gradient(circle at 2px 2px, hsl(var(--foreground)) 1px, transparent 1px)`,
+                    backgroundSize: '24px 24px',
+                  }}
+                />
               </div>
             </div>
           </div>
