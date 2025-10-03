@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import ProjectCard from "./ProjectCard";
+import CircularGallery3D from "./CircularGallery3D";
 
 const ProjectsSection = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -84,6 +85,7 @@ const ProjectsSection = () => {
         { label: "Play Store", url: "#" },
         { label: "Figma Design", url: "#" },
       ],
+      imageGradient: "linear-gradient(135deg, hsl(263 70% 50%), hsl(220 70% 50%))",
     },
     {
       title: "Echoes of Unity – Game UI/UX",
@@ -98,6 +100,7 @@ const ProjectsSection = () => {
       links: [
         { label: "Figma Design", url: "#" },
       ],
+      imageGradient: "linear-gradient(135deg, hsl(180 100% 50%), hsl(150 70% 50%))",
     },
     {
       title: "Fight Fit – Mobile AI-Tracked Boxing Game",
@@ -112,6 +115,7 @@ const ProjectsSection = () => {
       links: [
         { label: "Figma Design", url: "#" },
       ],
+      imageGradient: "linear-gradient(135deg, hsl(0 70% 50%), hsl(30 80% 50%))",
     },
   ];
 
@@ -125,38 +129,13 @@ const ProjectsSection = () => {
           <p className="text-muted-foreground text-lg">A showcase of my work across web and game development</p>
         </div>
 
-        {/* Game Development Projects - Scroll Stack */}
+        {/* Game Development Projects - 3D Circular Gallery */}
         <div className="space-y-8">
-          <h3 className="text-2xl font-bold text-foreground flex items-center gap-3 sticky top-20 z-10 bg-background/80 backdrop-blur-sm py-4">
+          <h3 className="text-2xl font-bold text-foreground flex items-center gap-3 text-center justify-center py-4">
             <span className="w-2 h-8 bg-gradient-primary rounded-full"></span>
             Game Development – UI/UX Design
           </h3>
-          <div className="relative" style={{ minHeight: `${gameProjects.length * 400}px` }}>
-            {gameProjects.map((project, index) => {
-              const progress = scrollProgress * gameProjects.length - index;
-              const isActive = progress >= 0 && progress <= 1;
-              const isPast = progress > 1;
-              
-              return (
-                <div
-                  key={index}
-                  className="sticky w-full transition-all duration-300"
-                  style={{
-                    top: `${120 + index * 20}px`,
-                    zIndex: gameProjects.length - index + (isPast ? 100 : 0),
-                    opacity: isPast ? 0 : 1,
-                    transform: isPast 
-                      ? 'translateY(-100px) scale(0.95)' 
-                      : isActive 
-                        ? `translateY(${-progress * 50}px) scale(${1 - progress * 0.05})` 
-                        : 'translateY(0) scale(1)',
-                  }}
-                >
-                  <ProjectCard {...project} delay={0} />
-                </div>
-              );
-            })}
-          </div>
+          <CircularGallery3D projects={gameProjects} />
         </div>
 
         {/* Web Development Projects - Scroll Stack */}
