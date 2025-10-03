@@ -1,6 +1,29 @@
+import { useEffect, useRef, useState } from "react";
 import ProjectCard from "./ProjectCard";
 
 const ProjectsSection = () => {
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!sectionRef.current) return;
+      
+      const section = sectionRef.current;
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.offsetHeight;
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      
+      const progress = (scrollY - sectionTop + windowHeight) / (sectionHeight + windowHeight);
+      setScrollProgress(Math.max(0, Math.min(1, progress)));
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
   const webProjects = [
     {
       title: "EXIS-INC Inventory Management System",
@@ -93,7 +116,7 @@ const ProjectsSection = () => {
   ];
 
   return (
-    <section id="projects" className="py-20 px-6">
+    <section ref={sectionRef} id="projects" className="py-20 px-6 relative">
       <div className="max-w-6xl mx-auto space-y-16">
         <div className="text-center space-y-4 animate-fade-in">
           <h2 className="text-4xl md:text-5xl font-bold">
@@ -102,29 +125,74 @@ const ProjectsSection = () => {
           <p className="text-muted-foreground text-lg">A showcase of my work across web and game development</p>
         </div>
 
-        {/* Game Development Projects */}
+        {/* Game Development Projects - Scroll Stack */}
         <div className="space-y-8">
-          <h3 className="text-2xl font-bold text-foreground flex items-center gap-3">
+          <h3 className="text-2xl font-bold text-foreground flex items-center gap-3 sticky top-20 z-10 bg-background/80 backdrop-blur-sm py-4">
             <span className="w-2 h-8 bg-gradient-primary rounded-full"></span>
             Game Development – UI/UX Design
           </h3>
-          <div className="grid gap-6">
-            {gameProjects.map((project, index) => (
-              <ProjectCard key={index} {...project} delay={index * 100} />
-            ))}
+          <div className="relative" style={{ minHeight: `${gameProjects.length * 400}px` }}>
+            {gameProjects.map((project, index) => {
+              const stackIndex = gameProjects.length - 1 - index;
+              const progress = scrollProgress * gameProjects.length - stackIndex;
+              const isActive = progress >= 0 && progress <= 1;
+              const isPast = progress > 1;
+              
+              return (
+                <div
+                  key={index}
+                  className="sticky w-full transition-all duration-300"
+                  style={{
+                    top: `${120 + stackIndex * 20}px`,
+                    zIndex: stackIndex,
+                    opacity: isPast ? 0 : 1,
+                    transform: isPast 
+                      ? 'translateY(-100px) scale(0.95)' 
+                      : isActive 
+                        ? `translateY(${-progress * 50}px) scale(${1 - progress * 0.05})` 
+                        : 'translateY(0) scale(1)',
+                  }}
+                >
+                  <ProjectCard {...project} delay={0} />
+                </div>
+              );
+            })}
           </div>
         </div>
 
-        {/* Web Development Projects */}
+        {/* Web Development Projects - Scroll Stack */}
         <div className="space-y-8">
-          <h3 className="text-2xl font-bold text-foreground flex items-center gap-3">
+          <h3 className="text-2xl font-bold text-foreground flex items-center gap-3 sticky top-20 z-10 bg-background/80 backdrop-blur-sm py-4">
             <span className="w-2 h-8 bg-gradient-primary rounded-full"></span>
             Front-End Development
           </h3>
-          <div className="grid gap-6">
-            {webProjects.map((project, index) => (
-              <ProjectCard key={index} {...project} delay={index * 100} />
-            ))}
+          <div className="relative" style={{ minHeight: `${webProjects.length * 400}px` }}>
+            {webProjects.map((project, index) => {
+              const stackIndex = webProjects.length - 1 - index;
+              const baseProgress = gameProjects.length;
+              const progress = scrollProgress * (gameProjects.length + webProjects.length) - baseProgress - stackIndex;
+              const isActive = progress >= 0 && progress <= 1;
+              const isPast = progress > 1;
+              
+              return (
+                <div
+                  key={index}
+                  className="sticky w-full transition-all duration-300"
+                  style={{
+                    top: `${120 + stackIndex * 20}px`,
+                    zIndex: stackIndex,
+                    opacity: isPast ? 0 : 1,
+                    transform: isPast 
+                      ? 'translateY(-100px) scale(0.95)' 
+                      : isActive 
+                        ? `translateY(${-progress * 50}px) scale(${1 - progress * 0.05})` 
+                        : 'translateY(0) scale(1)',
+                  }}
+                >
+                  <ProjectCard {...project} delay={0} />
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
