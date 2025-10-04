@@ -29,7 +29,8 @@ const CircularGallery3D = ({ projects }: CircularGallery3DProps) => {
   const animationRef = useRef<number>();
 
   const angleStep = 360 / projects.length;
-  const radius = 400; // Smaller radius to show 3 cards
+  const radius = 500; // Adjusted for better 3-card view
+  const cardSpacing = 120; // Degrees between visible cards
 
   useEffect(() => {
     const animate = () => {
@@ -105,7 +106,7 @@ const CircularGallery3D = ({ projects }: CircularGallery3DProps) => {
       <div 
         className="absolute inset-0 flex items-center justify-center"
         style={{
-          perspective: "2000px",
+          perspective: "1500px",
           perspectiveOrigin: "center center",
         }}
       >
@@ -123,32 +124,54 @@ const CircularGallery3D = ({ projects }: CircularGallery3DProps) => {
             const x = Math.sin((angle * Math.PI) / 180) * radius;
             const z = Math.cos((angle * Math.PI) / 180) * radius;
             
-            // Calculate distance from center (0 is center, increases as it moves away)
-            const normalizedAngle = ((angle - rotation) % 360 + 360) % 360;
-            const distanceFromCenter = Math.min(normalizedAngle, 360 - normalizedAngle);
+            // Calculate normalized angle relative to current rotation
+            const currentAngle = ((angle - rotation) % 360 + 360) % 360;
+            const normalizedAngle = currentAngle > 180 ? currentAngle - 360 : currentAngle;
             
-            // Scale: 1 at center, smaller when further away
-            const scale = 1 - (distanceFromCenter / 360) * 0.3;
+            // Determine if card is in the visible range (center ± 60 degrees)
+            const isCenter = Math.abs(normalizedAngle) < 15;
+            const isLeftSide = normalizedAngle > 15 && normalizedAngle < 90;
+            const isRightSide = normalizedAngle < -15 && normalizedAngle > -90;
+            const isVisible = isCenter || isLeftSide || isRightSide;
             
-            // Opacity: 1 at center, fades on sides
-            const opacity = 1 - (distanceFromCenter / 180) * 0.5;
+            // Scale: Center card is largest, side cards are smaller
+            let scale = 0.7;
+            if (isCenter) {
+              scale = 1.1;
+            } else if (isLeftSide || isRightSide) {
+              scale = 0.85;
+            }
             
-            // Blur for depth effect
-            const blur = distanceFromCenter / 60;
+            // Opacity: Center is fully visible, sides are dimmed
+            let opacity = 0.3;
+            if (isCenter) {
+              opacity = 1;
+            } else if (isLeftSide || isRightSide) {
+              opacity = 0.6;
+            }
+            
+            // Additional rotation for side cards to tilt toward center
+            let tiltRotation = 0;
+            if (isLeftSide) {
+              tiltRotation = 25; // Tilt right side toward center
+            } else if (isRightSide) {
+              tiltRotation = -25; // Tilt left side toward center
+            }
 
             return (
               <div
                 key={index}
-                className="absolute top-1/2 left-1/2 w-72 h-[500px] transition-all duration-300"
+                className="absolute top-1/2 left-1/2 w-72 h-[500px] transition-all duration-500"
                 style={{
-                  transform: `translate(-50%, -50%) translate3d(${x}px, 0, ${z}px) rotateY(${-angle}deg) scale(${scale})`,
+                  transform: `translate(-50%, -50%) translate3d(${x}px, 0, ${z}px) rotateY(${-angle + tiltRotation}deg) scale(${scale})`,
                   transformStyle: "preserve-3d",
                   backfaceVisibility: "hidden",
-                  opacity,
-                  filter: `blur(${blur}px)`,
+                  opacity: isVisible ? opacity : 0,
+                  pointerEvents: isCenter ? 'auto' : 'none',
+                  zIndex: isCenter ? 100 : 10,
                 }}
               >
-                <GameProjectCard3D {...project} />
+                <GameProjectCard3D {...project} isCenter={isCenter} />
               </div>
             );
           })}
