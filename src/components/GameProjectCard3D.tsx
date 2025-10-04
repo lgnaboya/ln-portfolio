@@ -12,7 +12,6 @@ interface GameProjectCard3DProps {
   features: string[];
   links?: ProjectLink[];
   imageGradient: string;
-  isCenter?: boolean;
 }
 
 const GameProjectCard3D = ({ 
@@ -21,13 +20,10 @@ const GameProjectCard3D = ({
   description, 
   features, 
   links,
-  imageGradient,
-  isCenter = false
+  imageGradient 
 }: GameProjectCard3DProps) => {
   return (
-    <div className={`w-full h-full flex flex-col bg-card border-2 border-border rounded-xl overflow-hidden transition-all duration-500 ${
-      isCenter ? 'shadow-[var(--shadow-glow)] border-primary/50' : 'shadow-[var(--shadow-card)]'
-    }`}>
+    <div className="w-full h-full flex flex-col bg-card border-2 border-border rounded-xl overflow-hidden shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-glow)] transition-all duration-300">
       {/* Image on top */}
       <div 
         className="w-full h-48 relative overflow-hidden"

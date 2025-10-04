@@ -148,50 +148,22 @@ const ProjectsSection = () => {
             {webProjects.map((project, index) => {
               const baseProgress = gameProjects.length;
               const progress = scrollProgress * (gameProjects.length + webProjects.length) - baseProgress - index;
-              
-              // Define clear states
-              const isUpcoming = progress < 0; // Not yet in view
-              const isActive = progress >= 0 && progress < 0.7; // Fully visible and focused
-              const isExiting = progress >= 0.7 && progress < 1; // Starting to exit
-              const isPast = progress >= 1; // Completely gone
-              
-              // Calculate opacity
-              let opacity = 1;
-              if (isUpcoming) opacity = 0;
-              else if (isExiting) opacity = 1 - ((progress - 0.7) / 0.3);
-              else if (isPast) opacity = 0;
-              
-              // Calculate transform
-              let translateY = 0;
-              let scale = 1;
-              if (isUpcoming) {
-                translateY = 50;
-                scale = 0.95;
-              } else if (isActive) {
-                translateY = -progress * 30;
-                scale = 1 - progress * 0.03;
-              } else if (isExiting) {
-                const exitProgress = (progress - 0.7) / 0.3;
-                translateY = -30 - exitProgress * 80;
-                scale = 0.97 - exitProgress * 0.1;
-              } else if (isPast) {
-                translateY = -200;
-                scale = 0.85;
-              }
-              
-              // z-index: active cards on top, past cards behind everything
-              const zIndex = isPast ? -10 : webProjects.length - index;
+              const isActive = progress >= 0 && progress <= 1;
+              const isPast = progress > 1;
               
               return (
                 <div
                   key={index}
-                  className="sticky w-full transition-all duration-500 ease-out"
+                  className="sticky w-full transition-all duration-300"
                   style={{
                     top: `${120 + index * 20}px`,
-                    zIndex,
-                    opacity,
-                    transform: `translateY(${translateY}px) scale(${scale})`,
-                    pointerEvents: isActive ? 'auto' : 'none',
+                    zIndex: webProjects.length - index + (isPast ? 100 : 0),
+                    opacity: isPast ? 0 : 1,
+                    transform: isPast 
+                      ? 'translateY(-100px) scale(0.95)' 
+                      : isActive 
+                        ? `translateY(${-progress * 50}px) scale(${1 - progress * 0.05})` 
+                        : 'translateY(0) scale(1)',
                   }}
                 >
                   <ProjectCard {...project} delay={0} />
