@@ -24,18 +24,26 @@ const CircularGallery3D = ({ projects }: CircularGallery3DProps) => {
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [velocity, setVelocity] = useState(0);
+  const [targetRotation, setTargetRotation] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number>();
 
   const angleStep = 360 / projects.length;
-  const radius = 600; // Distance from center
+  const radius = 400; // Smaller radius to show 3 cards
 
   useEffect(() => {
     const animate = () => {
-      if (!isDragging && Math.abs(velocity) > 0.01) {
-        setRotation((prev) => prev + velocity);
-        setVelocity((prev) => prev * 0.95); // Damping
-        animationRef.current = requestAnimationFrame(animate);
+      if (!isDragging) {
+        // Snap to nearest card
+        const diff = targetRotation - rotation;
+        if (Math.abs(diff) > 0.5) {
+          setRotation((prev) => prev + diff * 0.1);
+          animationRef.current = requestAnimationFrame(animate);
+        } else if (Math.abs(velocity) > 0.01) {
+          setRotation((prev) => prev + velocity);
+          setVelocity((prev) => prev * 0.95);
+          animationRef.current = requestAnimationFrame(animate);
+        }
       }
     };
 
@@ -45,7 +53,7 @@ const CircularGallery3D = ({ projects }: CircularGallery3DProps) => {
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [velocity, isDragging]);
+  }, [velocity, isDragging, rotation, targetRotation]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
@@ -63,18 +71,30 @@ const CircularGallery3D = ({ projects }: CircularGallery3DProps) => {
 
   const handleMouseUp = () => {
     setIsDragging(false);
+    // Snap to nearest card
+    const nearestAngle = Math.round(rotation / angleStep) * angleStep;
+    setTargetRotation(nearestAngle);
+    setVelocity(0);
   };
 
   const handleWheel = (e: React.WheelEvent) => {
     e.preventDefault();
-    setRotation((prev) => prev + e.deltaY * 0.1);
-    setVelocity(e.deltaY * 0.05);
+    const delta = e.deltaY * 0.1;
+    setRotation((prev) => prev + delta);
+    setVelocity(delta * 0.5);
+    
+    // Snap to nearest card after wheel
+    setTimeout(() => {
+      const nearestAngle = Math.round((rotation + delta) / angleStep) * angleStep;
+      setTargetRotation(nearestAngle);
+      setVelocity(0);
+    }, 100);
   };
 
   return (
     <div 
       ref={containerRef}
-      className="relative w-full h-[800px] overflow-hidden cursor-grab active:cursor-grabbing select-none"
+      className="relative w-full h-[700px] overflow-hidden cursor-grab active:cursor-grabbing select-none"
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
@@ -102,15 +122,30 @@ const CircularGallery3D = ({ projects }: CircularGallery3DProps) => {
             const angle = angleStep * index;
             const x = Math.sin((angle * Math.PI) / 180) * radius;
             const z = Math.cos((angle * Math.PI) / 180) * radius;
+            
+            // Calculate distance from center (0 is center, increases as it moves away)
+            const normalizedAngle = ((angle - rotation) % 360 + 360) % 360;
+            const distanceFromCenter = Math.min(normalizedAngle, 360 - normalizedAngle);
+            
+            // Scale: 1 at center, smaller when further away
+            const scale = 1 - (distanceFromCenter / 360) * 0.3;
+            
+            // Opacity: 1 at center, fades on sides
+            const opacity = 1 - (distanceFromCenter / 180) * 0.5;
+            
+            // Blur for depth effect
+            const blur = distanceFromCenter / 60;
 
             return (
               <div
                 key={index}
-                className="absolute top-1/2 left-1/2 w-80 h-[600px]"
+                className="absolute top-1/2 left-1/2 w-72 h-[500px] transition-all duration-300"
                 style={{
-                  transform: `translate(-50%, -50%) translate3d(${x}px, 0, ${z}px) rotateY(${-angle}deg)`,
+                  transform: `translate(-50%, -50%) translate3d(${x}px, 0, ${z}px) rotateY(${-angle}deg) scale(${scale})`,
                   transformStyle: "preserve-3d",
                   backfaceVisibility: "hidden",
+                  opacity,
+                  filter: `blur(${blur}px)`,
                 }}
               >
                 <GameProjectCard3D {...project} />
@@ -120,10 +155,18 @@ const CircularGallery3D = ({ projects }: CircularGallery3DProps) => {
         </div>
       </div>
 
+      {/* Navigation Arrows */}
+      <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+        <div className="text-4xl text-primary/30 animate-pulse">‹</div>
+      </div>
+      <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
+        <div className="text-4xl text-primary/30 animate-pulse">›</div>
+      </div>
+
       {/* Instructions */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-center space-y-2 pointer-events-none">
-        <p className="text-sm text-muted-foreground bg-background/80 backdrop-blur-sm px-4 py-2 rounded-full">
-          Drag or scroll to rotate the gallery
+        <p className="text-sm text-muted-foreground bg-background/80 backdrop-blur-sm px-4 py-2 rounded-full flex items-center gap-2">
+          <span>← Drag to explore →</span>
         </p>
       </div>
     </div>
