@@ -29,7 +29,7 @@ const CircularGallery3D = ({ projects }: CircularGallery3DProps) => {
   const animationRef = useRef<number>();
 
   const angleStep = 360 / projects.length;
-  const radius = 500; // Radius for 3-card display
+  const radius = 400; // Smaller radius to show 3 cards
 
   useEffect(() => {
     const animate = () => {
@@ -105,7 +105,7 @@ const CircularGallery3D = ({ projects }: CircularGallery3DProps) => {
       <div 
         className="absolute inset-0 flex items-center justify-center"
         style={{
-          perspective: "1500px",
+          perspective: "2000px",
           perspectiveOrigin: "center center",
         }}
       >
@@ -127,36 +127,28 @@ const CircularGallery3D = ({ projects }: CircularGallery3DProps) => {
             const normalizedAngle = ((angle - rotation) % 360 + 360) % 360;
             const distanceFromCenter = Math.min(normalizedAngle, 360 - normalizedAngle);
             
-            // Determine position
-            const isCenter = distanceFromCenter < 30;
-            const isLeftSide = normalizedAngle > 180 && normalizedAngle < 300;
-            const isRightSide = normalizedAngle > 60 && normalizedAngle < 180;
+            // Scale: 1 at center, smaller when further away
+            const scale = 1 - (distanceFromCenter / 360) * 0.3;
             
-            // Scale: larger at center, smaller on sides
-            const scale = isCenter ? 1.1 : 0.85;
-            
-            // Opacity: full at center, reduced on sides
-            const opacity = isCenter ? 1 : 0.7;
+            // Opacity: 1 at center, fades on sides
+            const opacity = 1 - (distanceFromCenter / 180) * 0.5;
             
             // Blur for depth effect
-            const blur = isCenter ? 0 : 2;
-            
-            // 3D tilt rotation toward center
-            const tiltRotation = isLeftSide ? 25 : isRightSide ? -25 : 0;
+            const blur = distanceFromCenter / 60;
 
             return (
               <div
                 key={index}
-                className="absolute top-1/2 left-1/2 w-72 h-[500px] transition-all duration-500"
+                className="absolute top-1/2 left-1/2 w-72 h-[500px] transition-all duration-300"
                 style={{
-                  transform: `translate(-50%, -50%) translate3d(${x}px, 0, ${z}px) rotateY(${-angle + tiltRotation}deg) scale(${scale})`,
+                  transform: `translate(-50%, -50%) translate3d(${x}px, 0, ${z}px) rotateY(${-angle}deg) scale(${scale})`,
                   transformStyle: "preserve-3d",
                   backfaceVisibility: "hidden",
                   opacity,
                   filter: `blur(${blur}px)`,
                 }}
               >
-                <GameProjectCard3D {...project} isCenter={isCenter} />
+                <GameProjectCard3D {...project} />
               </div>
             );
           })}
