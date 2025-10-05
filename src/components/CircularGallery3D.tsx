@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import GameProjectCard3D from "./GameProjectCard3D";
 
 interface ProjectLink {
@@ -20,155 +20,115 @@ interface CircularGallery3DProps {
 }
 
 const CircularGallery3D = ({ projects }: CircularGallery3DProps) => {
-  const [rotation, setRotation] = useState(0);
-  const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [velocity, setVelocity] = useState(0);
-  const [targetRotation, setTargetRotation] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [dragStart, setDragStart] = useState<number | null>(null);
+  const [dragOffset, setDragOffset] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
-  const animationRef = useRef<number>();
 
-  const angleStep = 360 / projects.length;
-  const radius = 400; // Smaller radius to show 3 cards
+  const prevIndex = (activeIndex - 1 + projects.length) % projects.length;
+  const nextIndex = (activeIndex + 1) % projects.length;
 
-  useEffect(() => {
-    const animate = () => {
-      if (!isDragging) {
-        // Snap to nearest card
-        const diff = targetRotation - rotation;
-        if (Math.abs(diff) > 0.5) {
-          setRotation((prev) => prev + diff * 0.1);
-          animationRef.current = requestAnimationFrame(animate);
-        } else if (Math.abs(velocity) > 0.01) {
-          setRotation((prev) => prev + velocity);
-          setVelocity((prev) => prev * 0.95);
-          animationRef.current = requestAnimationFrame(animate);
-        }
-      }
-    };
-
-    animationRef.current = requestAnimationFrame(animate);
-    return () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
-    };
-  }, [velocity, isDragging, rotation, targetRotation]);
-
+  // Handle mouse drag
   const handleMouseDown = (e: React.MouseEvent) => {
-    setIsDragging(true);
-    setStartX(e.clientX);
-    setVelocity(0);
+    setDragStart(e.clientX);
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging) return;
-    const deltaX = e.clientX - startX;
-    setRotation((prev) => prev + deltaX * 0.3);
-    setVelocity(deltaX * 0.3);
-    setStartX(e.clientX);
+    if (dragStart !== null) {
+      setDragOffset(e.clientX - dragStart);
+    }
   };
 
   const handleMouseUp = () => {
-    setIsDragging(false);
-    // Snap to nearest card
-    const nearestAngle = Math.round(rotation / angleStep) * angleStep;
-    setTargetRotation(nearestAngle);
-    setVelocity(0);
+    if (dragStart !== null) {
+      if (dragOffset > 100) {
+        // Swipe right → previous
+        setActiveIndex((i) => (i - 1 + projects.length) % projects.length);
+      } else if (dragOffset < -100) {
+        // Swipe left → next
+        setActiveIndex((i) => (i + 1) % projects.length);
+      }
+    }
+    setDragStart(null);
+    setDragOffset(0);
   };
 
-  const handleWheel = (e: React.WheelEvent) => {
-    e.preventDefault();
-    const delta = e.deltaY * 0.1;
-    setRotation((prev) => prev + delta);
-    setVelocity(delta * 0.5);
-    
-    // Snap to nearest card after wheel
-    setTimeout(() => {
-      const nearestAngle = Math.round((rotation + delta) / angleStep) * angleStep;
-      setTargetRotation(nearestAngle);
-      setVelocity(0);
-    }, 100);
+  // Handle click on side cards
+  const handleCardClick = (index: number) => {
+    // Prevent accidental click when dragging
+    if (Math.abs(dragOffset) < 10) {
+      setActiveIndex(index);
+    }
   };
 
   return (
-    <div 
+    <div
       ref={containerRef}
-      className="relative w-full h-[700px] overflow-hidden cursor-grab active:cursor-grabbing select-none"
+      className="relative w-full h-[700px] overflow-hidden select-none cursor-grab active:cursor-grabbing"
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
-      onWheel={handleWheel}
     >
-      {/* 3D Scene Container */}
-      <div 
+      <div
         className="absolute inset-0 flex items-center justify-center"
         style={{
           perspective: "2000px",
           perspectiveOrigin: "center center",
         }}
       >
-        {/* Carousel Container */}
+        {/* Left card */}
         <div
-          className="relative w-full h-full"
+          className="absolute top-1/2 left-1/2 w-72 h-[500px] transition-all duration-700 ease-out hover:scale-95 cursor-pointer"
           style={{
-            transformStyle: "preserve-3d",
-            transform: `rotateY(${rotation}deg)`,
-            transition: isDragging ? "none" : "transform 0.3s ease-out",
+            transform: `translate(-170%, -50%) rotateY(35deg) scale(0.85) translateZ(-200px)`,
+            zIndex: 1,
+            opacity: 0.6,
+            filter: "blur(1px)",
+          }}
+          onClick={() => handleCardClick(prevIndex)}
+        >
+          <GameProjectCard3D {...projects[prevIndex]} />
+        </div>
+
+        {/* Center card (floating pop-out) */}
+        <div
+          className="absolute top-1/2 left-1/2 w-80 h-[520px] transition-all duration-700 ease-out cursor-default"
+          style={{
+            transform: `translate(-50%, -50%) rotateY(0deg) scale(1.05) translateZ(120px)`,
+            zIndex: 5,
+            opacity: 1,
+            boxShadow:
+              "0 25px 50px rgba(0,0,0,0.4), 0 10px 20px rgba(0,0,0,0.3)",
+            animation: "float 4s ease-in-out infinite",
           }}
         >
-          {projects.map((project, index) => {
-            const angle = angleStep * index;
-            const x = Math.sin((angle * Math.PI) / 180) * radius;
-            const z = Math.cos((angle * Math.PI) / 180) * radius;
-            
-            // Calculate distance from center (0 is center, increases as it moves away)
-            const normalizedAngle = ((angle - rotation) % 360 + 360) % 360;
-            const distanceFromCenter = Math.min(normalizedAngle, 360 - normalizedAngle);
-            
-            // Scale: 1 at center, smaller when further away
-            const scale = 1 - (distanceFromCenter / 360) * 0.3;
-            
-            // Opacity: 1 at center, fades on sides
-            const opacity = 1 - (distanceFromCenter / 180) * 0.5;
-            
-            // Blur for depth effect
-            const blur = distanceFromCenter / 60;
+          <GameProjectCard3D {...projects[activeIndex]} />
+        </div>
 
-            return (
-              <div
-                key={index}
-                className="absolute top-1/2 left-1/2 w-72 h-[500px] transition-all duration-300"
-                style={{
-                  transform: `translate(-50%, -50%) translate3d(${x}px, 0, ${z}px) rotateY(${-angle}deg) scale(${scale})`,
-                  transformStyle: "preserve-3d",
-                  backfaceVisibility: "hidden",
-                  opacity,
-                  filter: `blur(${blur}px)`,
-                }}
-              >
-                <GameProjectCard3D {...project} />
-              </div>
-            );
-          })}
+        {/* Right card */}
+        <div
+          className="absolute top-1/2 left-1/2 w-72 h-[500px] transition-all duration-700 ease-out hover:scale-95 cursor-pointer"
+          style={{
+            transform: `translate(70%, -50%) rotateY(-35deg) scale(0.85) translateZ(-200px)`,
+            zIndex: 1,
+            opacity: 0.6,
+            filter: "blur(1px)",
+          }}
+          onClick={() => handleCardClick(nextIndex)}
+        >
+          <GameProjectCard3D {...projects[nextIndex]} />
         </div>
       </div>
 
-      {/* Navigation Arrows */}
-      <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-        <div className="text-4xl text-primary/30 animate-pulse">‹</div>
-      </div>
-      <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
-        <div className="text-4xl text-primary/30 animate-pulse">›</div>
-      </div>
-
-      {/* Instructions */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-center space-y-2 pointer-events-none">
-        <p className="text-sm text-muted-foreground bg-background/80 backdrop-blur-sm px-4 py-2 rounded-full flex items-center gap-2">
-          <span>← Drag to explore →</span>
-        </p>
-      </div>
+      {/* Floating animation keyframes */}
+      <style>{`
+        @keyframes float {
+          0% { transform: translate(-50%, -50%) rotateY(0deg) scale(1.05) translateZ(120px) translateY(0px); }
+          50% { transform: translate(-50%, -50%) rotateY(0deg) scale(1.05) translateZ(120px) translateY(-12px); }
+          100% { transform: translate(-50%, -50%) rotateY(0deg) scale(1.05) translateZ(120px) translateY(0px); }
+        }
+      `}</style>
     </div>
   );
 };

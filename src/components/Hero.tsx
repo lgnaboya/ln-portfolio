@@ -1,15 +1,15 @@
-import { useState, useRef, useEffect } from "react";
 import profilePhoto from "@/assets/profile-photo.jpg";
+import { useEffect, useRef, useState } from "react";
 
 const Hero = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [velocity, setVelocity] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [swingRotation, setSwingRotation] = useState(0);
-  const dragRef = useRef<{ 
-    startX: number; 
-    startY: number; 
-    elemX: number; 
+  const dragRef = useRef<{
+    startX: number;
+    startY: number;
+    elemX: number;
     elemY: number;
     lastTime: number;
     lastX: number;
@@ -35,29 +35,34 @@ const Hero = () => {
     }
 
     const animate = () => {
-      setPosition(prev => {
+      setPosition((prev) => {
         const newX = prev.x + velocity.x;
         const newY = prev.y + velocity.y;
         return { x: newX, y: newY };
       });
 
-      setVelocity(prev => ({
+      setVelocity((prev) => ({
         x: prev.x * 0.95, // damping
         y: prev.y * 0.95,
       }));
 
-      setSwingRotation(prev => {
+      setSwingRotation((prev) => {
         const target = velocity.x * -0.5;
         return prev + (target - prev) * 0.1;
       });
 
       // Spring back to center
-      setPosition(prev => ({
+      setPosition((prev) => ({
         x: prev.x * 0.95,
         y: prev.y * 0.95,
       }));
 
-      if (Math.abs(velocity.x) > 0.1 || Math.abs(velocity.y) > 0.1 || Math.abs(position.x) > 0.1 || Math.abs(position.y) > 0.1) {
+      if (
+        Math.abs(velocity.x) > 0.1 ||
+        Math.abs(velocity.y) > 0.1 ||
+        Math.abs(position.x) > 0.1 ||
+        Math.abs(position.y) > 0.1
+      ) {
         animationRef.current = requestAnimationFrame(animate);
       }
     };
@@ -89,13 +94,13 @@ const Hero = () => {
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!isDragging) return;
-    
+
     const now = Date.now();
     const dt = now - dragRef.current.lastTime;
-    
+
     if (dt > 0) {
-      const vx = (e.clientX - dragRef.current.lastX) / dt * 16;
-      const vy = (e.clientY - dragRef.current.lastY) / dt * 16;
+      const vx = ((e.clientX - dragRef.current.lastX) / dt) * 16;
+      const vy = ((e.clientY - dragRef.current.lastY) / dt) * 16;
       setVelocity({ x: vx, y: vy });
     }
 
@@ -116,9 +121,9 @@ const Hero = () => {
   };
 
   return (
-    <section 
-      id="home" 
-      className="min-h-screen flex items-center justify-center px-6 pt-24 pb-16"
+    <section
+      id="home"
+      className="min-h-screen flex items-center justify-center px-6 pb-10"
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
@@ -126,12 +131,12 @@ const Hero = () => {
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
         {/* Draggable Lanyard Profile Card */}
         <div className="flex justify-center md:justify-end animate-fade-in">
-          <div 
+          <div
             className="relative pt-32"
-            style={{ 
+            style={{
               transform: `translate(${position.x}px, ${position.y}px) rotate(${swingRotation}deg)`,
-              transformOrigin: 'top center',
-              transition: isDragging ? 'none' : 'transform 0.3s ease-out',
+              transformOrigin: "top center",
+              transition: isDragging ? "none" : "transform 0.3s ease-out",
             }}
           >
             {/* Lanyard String - Woven fabric style */}
@@ -139,17 +144,18 @@ const Hero = () => {
               {/* Main lanyard ribbon with gradient */}
               <div className="relative w-full h-full bg-gradient-to-b from-primary via-primary/80 to-primary/60 rounded-sm shadow-xl overflow-hidden">
                 {/* Woven fabric texture */}
-                <div className="absolute inset-0 opacity-30" 
+                <div
+                  className="absolute inset-0 opacity-30"
                   style={{
                     backgroundImage: `
-                      repeating-linear-gradient(90deg, 
-                        hsl(var(--primary) / 0.8) 0px, 
-                        hsl(var(--primary) / 0.6) 2px, 
+                      repeating-linear-gradient(90deg,
+                        hsl(var(--primary) / 0.8) 0px,
+                        hsl(var(--primary) / 0.6) 2px,
                         hsl(var(--primary) / 0.8) 4px
                       ),
-                      repeating-linear-gradient(0deg, 
-                        transparent 0px, 
-                        hsl(0 0% 100% / 0.1) 2px, 
+                      repeating-linear-gradient(0deg,
+                        transparent 0px,
+                        hsl(0 0% 100% / 0.1) 2px,
                         transparent 4px
                       )
                     `,
@@ -162,7 +168,7 @@ const Hero = () => {
                 <div className="absolute right-0 w-[2px] h-full bg-gradient-to-l from-black/30 to-transparent" />
               </div>
             </div>
-            
+
             {/* Metal Lanyard Clip */}
             <div className="absolute top-28 left-1/2 -translate-x-1/2 z-10">
               <div className="relative w-10 h-6">
@@ -176,57 +182,67 @@ const Hero = () => {
                 <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-white/40 to-transparent rounded-t-md pointer-events-none" />
               </div>
             </div>
-            
+
             {/* ID Badge Card */}
-            <div 
-              style={{ 
-                perspective: '1000px',
+            <div
+              style={{
+                perspective: "1000px",
               }}
             >
               <div
                 style={{
-                  transformStyle: 'preserve-3d',
-                  cursor: isDragging ? 'grabbing' : 'grab',
+                  transformStyle: "preserve-3d",
+                  cursor: isDragging ? "grabbing" : "grab",
                 }}
                 onMouseDown={handleMouseDown}
                 className="relative bg-gradient-card backdrop-blur-xl border-2 border-[var(--glass-border)] rounded-3xl p-8 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-glow)] transition-shadow duration-500 w-80"
               >
                 {/* Top accent bar - like real ID badges */}
                 <div className="absolute top-0 left-0 right-0 h-3 bg-gradient-primary rounded-t-3xl" />
-                
+
                 {/* Hole punch at top for lanyard */}
                 <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-background border-2 border-border shadow-inner z-20" />
-                
+
                 {/* Card content */}
-                <div className="flex flex-col items-center gap-6 relative pt-4" style={{ transform: 'translateZ(20px)' }}>
+                <div
+                  className="flex flex-col items-center gap-6 relative pt-4"
+                  style={{ transform: "translateZ(20px)" }}
+                >
                   {/* Profile Photo - larger and more prominent */}
                   <div className="w-56 h-56 rounded-2xl overflow-hidden border-4 border-primary/20 shadow-2xl ring-2 ring-primary/10">
-                    <img 
-                      src={profilePhoto} 
-                      alt="Profile Photo - Loudett Gleac Naboya" 
+                    <img
+                      src={profilePhoto}
+                      alt="Profile Photo - Loudette Glea Naboya"
                       className="w-full h-full object-cover"
                       draggable={false}
                     />
                   </div>
-                  
+
                   {/* Info section */}
                   <div className="text-center space-y-2 w-full">
-                    <h3 className="text-2xl font-bold text-foreground">Loudett Gleac Naboya</h3>
-                    <p className="text-base text-primary font-medium">UI/UX Designer & Developer</p>
-                    
+                    <h3 className="text-xl font-bold text-foreground pt-5">
+                      Loudette Glea Naboya
+                    </h3>
+                    <p className="text-base text-primary font-medium">
+                      Game & Web Experiences
+                    </p>
+
                     {/* Badge details */}
                     <div className="pt-4 mt-4 border-t border-border/50 space-y-1">
-                      <p className="text-xs text-muted-foreground uppercase tracking-wider">Portfolio Badge</p>
-                      <p className="text-xs text-muted-foreground/60">Est. 2024</p>
+                      <p className="text-xs text-muted-foreground uppercase tracking-wider">
+                        {" "}
+                      </p>
+                      <p className="text-xs text-muted-foreground/60"> </p>
                     </div>
                   </div>
                 </div>
-                
+
                 {/* Subtle pattern overlay */}
-                <div className="absolute inset-0 rounded-3xl pointer-events-none opacity-5"
+                <div
+                  className="absolute inset-0 rounded-3xl pointer-events-none opacity-5"
                   style={{
                     backgroundImage: `radial-gradient(circle at 2px 2px, hsl(var(--foreground)) 1px, transparent 1px)`,
-                    backgroundSize: '24px 24px',
+                    backgroundSize: "24px 24px",
                   }}
                 />
               </div>
@@ -236,25 +252,53 @@ const Hero = () => {
 
         {/* Hero Text */}
         <div className="space-y-6 animate-fade-in-up">
-          <div className="space-y-4">
-            <h1 className="text-4xl md:text-5xl font-bold leading-tight">
+          <div className="space-y-8 pt-20">
+            <h1 className="text-4xl md:text-lg font-bold leading-tight text-justify">
               <span className="bg-gradient-primary bg-clip-text text-transparent">
                 ✨ Crafting user-centered experiences
               </span>
-              <br />
-              <span className="text-foreground">for games and the web.</span>
+              <span className="text-foreground font-medium">
+                {" "}
+                for games and the web.
+              </span>
             </h1>
-            
-            <div className="space-y-4 text-muted-foreground text-lg leading-relaxed">
+
+            <div className="space-y-8 text-muted-foreground text-lg leading-relaxed text-justify">
               <p>
-                I design and build user-centered digital experiences for games and web applications. 
-                With a balance of creativity and technical expertise, I craft intuitive, engaging, and impactful products.
+                I design and build user-centered digital experiences for games
+                and web applications. With a balance of creativity and technical
+                expertise, I craft intuitive, engaging, and impactful products.
               </p>
-              
+
               <p>
-                Driven by curiosity and continuous learning, I thrive in dynamic environments where I can 
-                explore new tools, solve complex problems, and deliver solutions that provide real value.
+                Driven by curiosity and continuous learning, I thrive in dynamic
+                environments where I can explore new tools, solve complex
+                problems, and deliver solutions that provide real value.
               </p>
+            </div>
+
+            {/* View My Work Button */}
+            <div className="pt-4 flex justify-center">
+              <a
+                href="#projects"
+                className="group flex items-center gap-2 text-primary font-semibold text-medium hover:text-primary/80 transition-colors"
+              >
+                View My Work
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                  stroke="currentColor"
+                  className="w-5 h-5 group-hover:translate-y-1 transition-transform duration-300"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </a>
             </div>
           </div>
         </div>
