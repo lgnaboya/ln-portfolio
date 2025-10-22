@@ -1,9 +1,9 @@
-import Navigation from "@/components/Navigation";
-import Hero from "@/components/Hero";
-import ProjectsSection from "@/components/ProjectsSection";
 import About from "@/components/About";
-import Contact from "@/components/Contact";
 import AnimatedBackground from "@/components/AnimatedBackground";
+import Contact from "@/components/Contact";
+import Hero from "@/components/Hero";
+import Navigation from "@/components/Navigation";
+import ProjectsSection from "@/components/ProjectsSection";
 
 const Index = () => {
   return (
@@ -11,15 +11,18 @@ const Index = () => {
       <AnimatedBackground />
       <div className="relative z-10">
         <Navigation />
-      <Hero />
-      <ProjectsSection />
-      <About />
+        <Hero />
+        <ProjectsSection />
+        <About />
         <Contact />
-        
+
         {/* Footer */}
         <footer className="py-8 px-6 border-t border-border">
           <div className="max-w-6xl mx-auto text-center text-muted-foreground text-sm">
-            <p>© 2024 Loudett Gleac Naboya. Crafted with passion for design and code.</p>
+            <p>
+              © 2024 Loudette Glea Naboya. Crafted with passion for design and
+              code.
+            </p>
           </div>
         </footer>
       </div>

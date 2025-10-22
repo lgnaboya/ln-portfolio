@@ -10,21 +10,23 @@ interface ProjectCardProps {
   date: string;
   description: string;
   features: string[];
+  techStack?: string[];
   links?: ProjectLink[];
   delay?: number;
-  isActive?: boolean; // 👈 NEW PROP
+  isActive?: boolean;
 }
 
 const ProjectCard = ({
   title,
   date,
   description,
+  techStack,
   features,
   links,
   delay = 0,
-  isActive = false, // 👈 DEFAULT VALUE
+  isActive = false,
 }: ProjectCardProps) => {
-  const isNofaceGame = title === "noface.game – Anonymous Social Platform";
+  const isNofaceGame = title === "NoFace";
 
   return (
     <div
@@ -37,13 +39,14 @@ const ProjectCard = ({
       }`}
       style={{ animationDelay: `${delay}ms` }}
     >
-      {/* Gradient overlay (active or hover) */}
+      {/* Gradient overlay */}
       <div
         className={`absolute inset-0 bg-gradient-primary rounded-2xl transition-opacity duration-500
         ${isActive ? "opacity-10" : "opacity-0 group-hover:opacity-5"}`}
       ></div>
 
       <div className="relative space-y-4">
+        {/* Header with title + optional top-right link */}
         <div className="flex items-start justify-between gap-4">
           <div>
             <h3
@@ -55,27 +58,25 @@ const ProjectCard = ({
             <p className="text-sm text-muted-foreground mt-1">{date}</p>
           </div>
 
+          {/* Move NoFace link to the top right */}
           {isNofaceGame && links && links.length > 0 && (
-            <div className="flex flex-wrap gap-3">
-              {links.map((link, index) => (
-                <a
-                  key={index}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-secondary hover:bg-primary/20
-                  border border-border hover:border-primary/50 text-foreground transition-all duration-200 hover:scale-105"
-                >
-                  <span className="text-sm font-medium">{link.label}</span>
-                  <ExternalLink className="w-4 h-4" />
-                </a>
-              ))}
-            </div>
+            <a
+              href={links[0].url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-primary/10 hover:bg-primary/20
+              border border-primary/30 hover:border-primary/50 text-foreground transition-all duration-200 hover:scale-105 text-sm font-medium"
+            >
+              {links[0].label}
+              <ExternalLink className="w-4 h-4" />
+            </a>
           )}
         </div>
 
+        {/* Description */}
         <p className="text-muted-foreground leading-relaxed">{description}</p>
 
+        {/* Features */}
         {features.length > 0 && (
           <div className="space-y-2">
             <p className="text-sm font-medium text-foreground">Key Features:</p>
@@ -93,6 +94,24 @@ const ProjectCard = ({
           </div>
         )}
 
+        {/* Tech Stack */}
+        {techStack && techStack.length > 0 && (
+          <div className="space-y-2 pt-2">
+            <p className="text-sm font-medium text-foreground">Tech Stack:</p>
+            <ul className="flex flex-wrap gap-2">
+              {techStack.map((tech, index) => (
+                <li
+                  key={index}
+                  className="px-3 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full border border-primary/20"
+                >
+                  {tech}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* Default links (for other projects) */}
         {!isNofaceGame && links && links.length > 0 && (
           <div className="flex flex-wrap gap-3 pt-4">
             {links.map((link, index) => (

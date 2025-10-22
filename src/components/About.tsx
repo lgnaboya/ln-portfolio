@@ -13,14 +13,21 @@ const TechnicalSkills: React.FC = () => {
         "Adobe Suite",
       ],
       description:
-        "I craft intuitive, user-centered designs with smooth interaction flows and aesthetic precision.",
+        "Crafting intuitive and visually engaging user experiences across web and game interfaces. I create functional prototypes and wireframes that prioritize usability, accessibility, and creative flow. Skilled in leveraging tools like Figma for rapid prototyping and the Adobe Suite for high-quality visual and branding assets.",
     },
     {
       title: "Development",
       frontColor: "from-indigo-200/10 to-cyan-900/20",
-      skills: ["Front-End Development", "React", "PHP/MySQL", "Unity"],
+      skills: [
+        "HTML/CSS",
+        "JavaScript/TypeScript",
+        "React",
+        "PHP/MySQL",
+        "Java",
+        "Front-End Development",
+      ],
       description:
-        "I build responsive and dynamic interfaces with clean code, optimized structure, and immersive user experiences.",
+        "My development experience spans both web and application environments. I’m proficient in building responsive, dynamic interfaces using modern frameworks. My approach focuses on writing clean, maintainable code while ensuring optimized performance and seamless user experience across devices.",
     },
   ];
 
@@ -37,8 +44,10 @@ const TechnicalSkills: React.FC = () => {
               Technical Skills
             </span>
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Hover over the cards to explore each category in depth.
+          <p className="text-muted-foreground text-md max-w-2xl mx-auto">
+            A comprehensive overview of my technical expertise across various
+            areas, continuously developed through hands-on project experience
+            and creative exploration.
           </p>
         </div>
 

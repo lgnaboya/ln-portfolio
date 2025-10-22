@@ -1,24 +1,60 @@
-import { Mail } from "lucide-react";
+import { Globe, Handshake, Mail, Phone } from "lucide-react";
 
 const Contact = () => {
   return (
     <section id="contact" className="py-20 px-6">
-      <div className="max-w-4xl mx-auto text-center space-y-8 animate-fade-in">
-        <h2 className="text-4xl md:text-5xl font-bold">
-          <span className="bg-gradient-primary bg-clip-text text-transparent">Get in Touch</span>
-        </h2>
-        
-        <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-          Have a project in mind or want to collaborate? Feel free to reach out!
+      <div className="max-w-3xl mx-auto text-center space-y-8 animate-fade-in">
+        {/* Heading */}
+        <div className="flex justify-center items-center gap-2">
+          <Handshake className="w-8 h-8 text-primary" />
+          <h2 className="text-4xl md:text-5xl font-bold">
+            <span className="bg-gradient-primary bg-clip-text text-transparent">
+              Let’s Connect
+            </span>
+          </h2>
+        </div>
+
+        {/* Description */}
+        <p className="text-muted-foreground text-lg leading-relaxed max-w-2xl mx-auto">
+          Always eager to collaborate on innovative projects and explore
+          emerging technologies that make a real-world impact.
         </p>
 
-        <a
-          href="mailto:loudettgleacnaboya@gmail.com"
-          className="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-gradient-primary text-primary-foreground font-medium text-lg hover:shadow-[var(--shadow-glow)] transition-all duration-300 hover:scale-105 group"
-        >
-          <Mail className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-          loudettgleacnaboya@gmail.com
-        </a>
+        {/* Contact Info */}
+        <div className="space-y-4 text-sm md:text-base text-foreground font-medium">
+          <div className="flex items-center justify-center gap-3">
+            <Mail className="w-5 h-5 text-primary" />
+            <span>
+              <strong>Email:</strong>{" "}
+              <a
+                href="mailto:loudettenaboya@gmail.com"
+                className="text-primary hover:underline"
+              >
+                loudettenaboya@gmail.com
+              </a>
+            </span>
+          </div>
+
+          <div className="flex items-center justify-center gap-3">
+            <Phone className="w-5 h-5 text-primary" />
+            <span>
+              <strong>Phone:</strong>{" "}
+              <a
+                href="tel:+639214489298"
+                className="text-primary hover:underline"
+              >
+                +63 921 448 9298
+              </a>
+            </span>
+          </div>
+
+          <div className="flex items-center justify-center gap-3">
+            <Globe className="w-5 h-5 text-primary" />
+            <span>
+              <strong>Location:</strong> Available Worldwide
+            </span>
+          </div>
+        </div>
       </div>
     </section>
   );

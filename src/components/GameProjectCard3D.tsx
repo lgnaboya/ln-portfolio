@@ -11,49 +11,55 @@ interface GameProjectCard3DProps {
   description: string;
   features: string[];
   links?: ProjectLink[];
-  imageGradient: string;
+  imageBackground: string;
 }
 
-const GameProjectCard3D = ({ 
-  title, 
-  date, 
-  description, 
-  features, 
+const GameProjectCard3D = ({
+  title,
+  date,
+  description,
+  features,
   links,
-  imageGradient 
+  imageBackground,
 }: GameProjectCard3DProps) => {
   return (
     <div className="w-full h-full flex flex-col bg-card border-2 border-border rounded-xl overflow-hidden shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-glow)] transition-all duration-300">
       {/* Image on top */}
-      <div 
-        className="w-full h-48 relative overflow-hidden"
-        style={{ 
-          background: imageGradient,
+      <div
+        className="w-full h-48 relative overflow-hidden bg-center"
+        style={{
+          backgroundImage: `url(${imageBackground})`,
+          backgroundSize: "contain",
         }}
       >
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-card/50"></div>
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center space-y-1 p-3">
-            <h3 className="text-xl font-bold text-white drop-shadow-lg">
+            <h3 className="text-2xl font-extrabold text-white drop-shadow-xl">
               {title}
             </h3>
-            <p className="text-xs text-white/80 drop-shadow">{date}</p>
+            <p className="text-md text-white/75 drop-shadow">{date}</p>
           </div>
         </div>
       </div>
 
       {/* Description below */}
       <div className="flex-1 p-4 space-y-3 bg-card">
-        <p className="text-muted-foreground leading-relaxed text-xs">
+        <p className="text-muted-foreground leading-relaxed text-xs text-justify">
           {description}
         </p>
 
         {features.length > 0 && (
           <div className="space-y-1.5">
-            <p className="text-[10px] font-medium text-foreground uppercase tracking-wide">Key Features:</p>
-            <ul className="space-y-0.5">
-              {features.slice(0, 2).map((feature, index) => (
-                <li key={index} className="text-[10px] text-muted-foreground flex items-start gap-1.5">
+            <p className="text-[10px] font-medium text-foreground uppercase tracking-wide">
+              Key Features:
+            </p>
+            <ul className="space-y-0.5 max-h-24 overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-border/80 hover:scrollbar-thumb-border">
+              {features.map((feature, index) => (
+                <li
+                  key={index}
+                  className="text-[10px] text-muted-foreground flex items-start gap-1.5"
+                >
                   <span className="text-accent mt-0.5">•</span>
                   <span>{feature}</span>
                 </li>

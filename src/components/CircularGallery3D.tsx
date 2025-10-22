@@ -12,7 +12,7 @@ interface GameProject {
   description: string;
   features: string[];
   links?: ProjectLink[];
-  imageGradient: string;
+  imageBackground: string;
 }
 
 interface CircularGallery3DProps {

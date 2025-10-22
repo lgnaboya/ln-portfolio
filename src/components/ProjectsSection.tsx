@@ -34,13 +34,18 @@ const ProjectsSection = () => {
       description:
         "Web-based anonymous chat platform enabling meaningful conversations through voice and text.",
       features: [
-        "Built responsive UI in React",
+        "Anonymous voice and text chat",
         "Real-time messaging interface",
         "Conversation starter interactions",
-        "Accessibility & privacy-first design",
-        "Tech Stack: React, CSS/HTML, Express.js, ASP.NET",
+        "Accessibility and privacy-first design",
       ],
-      links: [{ label: "Figma Design", url: "#" }],
+      techStack: ["React", "CSS/HTML", "Express.js", "ASP.NET"],
+      links: [
+        {
+          label: "Figma Design",
+          url: "https://www.figma.com/site/Y8BTZ51of4SKeJaAdies0s/NoFace?node-id=0-1&t=nBWA3bPW1E4LASa2-1",
+        },
+      ],
     },
     {
       title: "App-Based Rental Locker System",
@@ -49,9 +54,10 @@ const ProjectsSection = () => {
         "Mobile application for seamless locker rental service with integrated payment processing.",
       features: [
         "Designed UI for mobile locker rental app",
-        "Contributed to backend (booking + payment features)",
+        "Contributed to backend (booking and payment features)",
         "User-friendly booking system",
       ],
+      techStack: ["Java", "Firebase", "Android Studio"],
     },
     {
       title: "EXIS-INC Inventory Management System",
@@ -59,21 +65,23 @@ const ProjectsSection = () => {
       description:
         "Comprehensive inventory management solution with intuitive UI and robust backend functionality.",
       features: [
-        "Developed UI and contributed to backend (CRUD ops)",
-        "PHP + MySQL database integration",
+        "Developed UI and contributed to backend (CRUD operations)",
         "Real-time inventory tracking",
+        "Data management and reporting",
       ],
+      techStack: ["PHP", "MySQL", "HTML/CSS", "JavaScript"],
     },
     {
       title: "E-Commerce Bookstore Website",
       date: "September 2024 (TESDA Web Design)",
       description:
-        "Responsive e-commerce platform for book sales with categorized listings and custom ordering.",
+        "Responsive e-commerce platform for book sales with categorized listings and custom ordering system.",
       features: [
         "Built responsive website with categorized book listings",
-        "Custom order forms",
-        "Modern, accessible design",
+        "Implemented custom order forms",
+        "Designed modern and accessible user interface",
       ],
+      techStack: ["HTML", "CSS", "Adobe Photoshop"],
     },
   ];
 
@@ -90,29 +98,34 @@ const ProjectsSection = () => {
         "Live rep sync",
       ],
       links: [
-        { label: "Play Store", url: "#" },
+        {
+          label: "Play Store",
+          url: "https://play.google.com/store/apps/details?id=com.quixyfit.hiit&pcampaignid=web_share",
+        },
         {
           label: "Figma Design",
-          url: "https://www.figma.com/design/cLuZ3DXpnSIE9iJcQCilrZ/AI-Rep-Tracker?m=auto&t=m62u9MzVBmPsBWaA-1",
+          url: "https://www.figma.com/design/cLuZ3DXpnSIE9iJcQCilrZ/AI-Rep-Tracker?node-id=0-1&t=8IkkVX4JCu90zF49-1",
         },
       ],
-      imageGradient:
-        "linear-gradient(135deg, hsl(263 70% 50%), hsl(220 70% 50%))",
+      imageBackground: "src/assets/ai-rep-tracker.png",
     },
     {
       title: "Echoes of Unity",
       date: "Obstacle Course Game",
       description:
-        "Two-player online 3D platformer with motion-based controls built with Unity + Mediapipe ML.",
+        "An interactive motion-based obstacle course game where real-life movements control the character to overcome in-game challenges. Designed to promote fitness and teamwork, blends physical activity with cooperative gameplay.",
       features: [
+        "Motion-based controls (run, squat, jump, etc)",
         "Fitness-based progression",
         "Co-op mechanics",
-        "Motion-based controls (run, squat, jump, climb)",
-        "Stylized 3D visuals",
       ],
-      links: [{ label: "Figma Design", url: "#" }],
-      imageGradient:
-        "linear-gradient(135deg, hsl(180 100% 50%), hsl(150 70% 50%))",
+      links: [
+        {
+          label: "Figma Design",
+          url: "https://www.figma.com/design/QaruR0WTCANbhGQlB6HhKd/Game-Development?node-id=0-1&t=7qn110FlflCirXFz-1",
+        },
+      ],
+      imageBackground: "src/assets/echoes-unity.png",
     },
     {
       title: "Fight Fit",
@@ -125,8 +138,13 @@ const ProjectsSection = () => {
         "Mobile-first design",
         "Gamified workouts",
       ],
-      links: [{ label: "Figma Design", url: "#" }],
-      imageGradient: "linear-gradient(135deg, hsl(0 70% 50%), hsl(30 80% 50%))",
+      links: [
+        {
+          label: "Figma Design",
+          url: "https://www.figma.com/design/QaruR0WTCANbhGQlB6HhKd/Game-Development?node-id=1005-57&t=7qn110FlflCirXFz-1",
+        },
+      ],
+      imageBackground: "src/assets/fight-fit.png",
     },
     {
       title: "Dance Fitness",
@@ -134,15 +152,17 @@ const ProjectsSection = () => {
       description:
         "A Unity-based rhythm game designed to deliver an engaging and intuitive dance experience. Players move in sync with the music, matching falling tiles through responsive and visually guided cues.",
       features: [
-        "Intuitive and responsive user interface",
-        "Real-time body movement tracking for natural interaction",
-        "Rhythm-based gameplay with visual and auditory feedback",
-        "Dynamic tile-matching system with engaging animations",
-        "Immersive and accessible design for all player levels",
+        "Responsive motion-tracking interface",
+        "Rhythm-based gameplay with feedback",
+        "Dynamic tile-matching mechanics",
       ],
-      links: [{ label: "Figma Design", url: "#" }],
-      imageGradient:
-        "linear-gradient(135deg, hsl(290 70% 50%), hsl(330 80% 50%))",
+      links: [
+        {
+          label: "Figma Design",
+          url: "https://www.figma.com/design/QaruR0WTCANbhGQlB6HhKd/Game-Development?node-id=1005-58&t=7qn110FlflCirXFz-1",
+        },
+      ],
+      imageBackground: "src/assets/dance-fitness.png",
     },
   ];
 
@@ -171,7 +191,7 @@ const ProjectsSection = () => {
         </div>
 
         {/* Web Development Projects - Scroll Stack */}
-        <div className="space-y-8">
+        <div className="space-y-12">
           <h3
             className="text-2xl font-bold text-foreground flex items-center gap-3 sticky z-10 bg-background/10 backdrop-blur-sm py-4"
             style={{ top: "80px" }}
@@ -182,7 +202,7 @@ const ProjectsSection = () => {
 
           <div
             className="relative"
-            style={{ minHeight: `${webProjects.length * 400}px` }}
+            style={{ minHeight: `${webProjects.length * 550}px` }}
           >
             {webProjects.map((project, index) => {
               const baseProgress = gameProjects.length;
@@ -203,7 +223,7 @@ const ProjectsSection = () => {
                     zIndex: webProjects.length - index + (isPast ? 100 : 0),
                     opacity: isPast ? 0 : 1,
                     transform: isPast
-                      ? "translateY(-100px) scale(0.95)"
+                      ? "translateY(-100px) scale(0.85)"
                       : isActive
                       ? `translateY(${-progress * 50}px) scale(${
                           1 - progress * 0.05
@@ -211,7 +231,7 @@ const ProjectsSection = () => {
                       : "translateY(0) scale(1)",
                   }}
                 >
-                  {/* ✅ Pass the scroll-based highlight state */}
+                  {/*Pass the scroll-based highlight state */}
                   <ProjectCard {...project} delay={0} isActive={isActive} />
                 </div>
               );
