@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://lgnaboya.github.io/",
+  "homepage": "https://lgnaboya.github.io/ln-portfolio/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
