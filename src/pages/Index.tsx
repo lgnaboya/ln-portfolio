@@ -20,7 +20,7 @@ const Index = () => {
         <footer className="py-8 px-6 border-t border-border">
           <div className="max-w-6xl mx-auto text-center text-muted-foreground text-sm">
             <p>
-              © 2024 Loudette Glea Naboya. Crafted with passion for design and
+              © 2025 Loudette Glea Naboya. Crafted with passion for design and
               code.
             </p>
           </div>
