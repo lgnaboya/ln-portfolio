@@ -2,6 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import CircularGallery3D from "./CircularGallery3D";
 import ProjectCard from "./ProjectCard";
 
+import aiRepTracker from "@/assets/ai-rep-tracker.png";
+import danceFitness from "@/assets/dance-fitness.png";
+import echoesUnity from "@/assets/echoes-unity.png";
+import fightFit from "@/assets/fight-fit.png";
+
 const ProjectsSection = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
   const sectionRef = useRef(null);
@@ -107,7 +112,7 @@ const ProjectsSection = () => {
           url: "https://www.figma.com/design/cLuZ3DXpnSIE9iJcQCilrZ/AI-Rep-Tracker?node-id=0-1&t=8IkkVX4JCu90zF49-1",
         },
       ],
-      imageBackground: "src/assets/ai-rep-tracker.png",
+      imageBackground: aiRepTracker,
     },
     {
       title: "Echoes of Unity",
@@ -125,7 +130,7 @@ const ProjectsSection = () => {
           url: "https://www.figma.com/design/QaruR0WTCANbhGQlB6HhKd/Game-Development?node-id=0-1&t=7qn110FlflCirXFz-1",
         },
       ],
-      imageBackground: "src/assets/echoes-unity.png",
+      imageBackground: echoesUnity,
     },
     {
       title: "Fight Fit",
@@ -144,7 +149,7 @@ const ProjectsSection = () => {
           url: "https://www.figma.com/design/QaruR0WTCANbhGQlB6HhKd/Game-Development?node-id=1005-57&t=7qn110FlflCirXFz-1",
         },
       ],
-      imageBackground: "src/assets/fight-fit.png",
+      imageBackground: fightFit,
     },
     {
       title: "Dance Fitness",
@@ -162,7 +167,7 @@ const ProjectsSection = () => {
           url: "https://www.figma.com/design/QaruR0WTCANbhGQlB6HhKd/Game-Development?node-id=1005-58&t=7qn110FlflCirXFz-1",
         },
       ],
-      imageBackground: "src/assets/dance-fitness.png",
+      imageBackground: danceFitness,
     },
   ];
 
