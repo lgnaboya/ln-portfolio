@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import GameProjectCard3D from "./GameProjectCard3D";
 
 interface ProjectLink {
@@ -23,29 +23,30 @@ const CircularGallery3D = ({ projects }: CircularGallery3DProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [dragStart, setDragStart] = useState<number | null>(null);
   const [dragOffset, setDragOffset] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const prevIndex = (activeIndex - 1 + projects.length) % projects.length;
   const nextIndex = (activeIndex + 1) % projects.length;
 
-  // Handle mouse drag
-  const handleMouseDown = (e: React.MouseEvent) => {
-    setDragStart(e.clientX);
-  };
+  // Detect screen size for responsiveness
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (dragStart !== null) {
-      setDragOffset(e.clientX - dragStart);
-    }
+  // --- Swipe / Drag Controls ---
+  const startDrag = (x: number) => setDragStart(x);
+  const moveDrag = (x: number) => {
+    if (dragStart !== null) setDragOffset(x - dragStart);
   };
-
-  const handleMouseUp = () => {
+  const endDrag = () => {
     if (dragStart !== null) {
       if (dragOffset > 100) {
-        // Swipe right → previous
         setActiveIndex((i) => (i - 1 + projects.length) % projects.length);
       } else if (dragOffset < -100) {
-        // Swipe left → next
         setActiveIndex((i) => (i + 1) % projects.length);
       }
     }
@@ -53,22 +54,21 @@ const CircularGallery3D = ({ projects }: CircularGallery3DProps) => {
     setDragOffset(0);
   };
 
-  // Handle click on side cards
   const handleCardClick = (index: number) => {
-    // Prevent accidental click when dragging
-    if (Math.abs(dragOffset) < 10) {
-      setActiveIndex(index);
-    }
+    if (Math.abs(dragOffset) < 10) setActiveIndex(index);
   };
 
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-[700px] overflow-hidden select-none cursor-grab active:cursor-grabbing"
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseUp}
+      className="relative w-full h-[700px] md:h-[700px] sm:h-[550px] overflow-hidden select-none"
+      onMouseDown={(e) => startDrag(e.clientX)}
+      onMouseMove={(e) => moveDrag(e.clientX)}
+      onMouseUp={endDrag}
+      onMouseLeave={endDrag}
+      onTouchStart={(e) => startDrag(e.touches[0].clientX)}
+      onTouchMove={(e) => moveDrag(e.touches[0].clientX)}
+      onTouchEnd={endDrag}
     >
       <div
         className="absolute inset-0 flex items-center justify-center"
@@ -77,25 +77,31 @@ const CircularGallery3D = ({ projects }: CircularGallery3DProps) => {
           perspectiveOrigin: "center center",
         }}
       >
-        {/* Left card */}
-        <div
-          className="absolute top-1/2 left-1/2 w-72 h-[500px] transition-all duration-700 ease-out hover:scale-95 cursor-pointer"
-          style={{
-            transform: `translate(-170%, -50%) rotateY(35deg) scale(0.85) translateZ(-200px)`,
-            zIndex: 1,
-            opacity: 0.6,
-            filter: "blur(1px)",
-          }}
-          onClick={() => handleCardClick(prevIndex)}
-        >
-          <GameProjectCard3D {...projects[prevIndex]} />
-        </div>
+        {/* LEFT CARD */}
+        {!isMobile && (
+          <div
+            className="absolute top-1/2 left-1/2 w-72 h-[500px] transition-all duration-700 ease-out hover:scale-95 cursor-pointer"
+            style={{
+              transform: `translate(-170%, -50%) rotateY(35deg) scale(0.85) translateZ(-200px)`,
+              zIndex: 1,
+              opacity: 0.6,
+              filter: "blur(1px)",
+            }}
+            onClick={() => handleCardClick(prevIndex)}
+          >
+            <GameProjectCard3D {...projects[prevIndex]} />
+          </div>
+        )}
 
-        {/* Center card (floating pop-out) */}
+        {/* CENTER CARD */}
         <div
-          className="absolute top-1/2 left-1/2 w-80 h-[520px] transition-all duration-700 ease-out cursor-default"
+          className={`absolute top-1/2 left-1/2 transition-all duration-700 ease-out ${
+            isMobile ? "w-64 h-[440px]" : "w-80 h-[520px]"
+          }`}
           style={{
-            transform: `translate(-50%, -50%) rotateY(0deg) scale(1.05) translateZ(120px)`,
+            transform: `translate(-50%, -50%) rotateY(0deg) scale(1.05) translateZ(${
+              isMobile ? "60px" : "120px"
+            })`,
             zIndex: 5,
             opacity: 1,
             boxShadow:
@@ -106,27 +112,35 @@ const CircularGallery3D = ({ projects }: CircularGallery3DProps) => {
           <GameProjectCard3D {...projects[activeIndex]} />
         </div>
 
-        {/* Right card */}
-        <div
-          className="absolute top-1/2 left-1/2 w-72 h-[500px] transition-all duration-700 ease-out hover:scale-95 cursor-pointer"
-          style={{
-            transform: `translate(70%, -50%) rotateY(-35deg) scale(0.85) translateZ(-200px)`,
-            zIndex: 1,
-            opacity: 0.6,
-            filter: "blur(1px)",
-          }}
-          onClick={() => handleCardClick(nextIndex)}
-        >
-          <GameProjectCard3D {...projects[nextIndex]} />
-        </div>
+        {/* RIGHT CARD */}
+        {!isMobile && (
+          <div
+            className="absolute top-1/2 left-1/2 w-72 h-[500px] transition-all duration-700 ease-out hover:scale-95 cursor-pointer"
+            style={{
+              transform: `translate(70%, -50%) rotateY(-35deg) scale(0.85) translateZ(-200px)`,
+              zIndex: 1,
+              opacity: 0.6,
+              filter: "blur(1px)",
+            }}
+            onClick={() => handleCardClick(nextIndex)}
+          >
+            <GameProjectCard3D {...projects[nextIndex]} />
+          </div>
+        )}
       </div>
 
-      {/* Floating animation keyframes */}
+      {/* FLOAT ANIMATION */}
       <style>{`
         @keyframes float {
-          0% { transform: translate(-50%, -50%) rotateY(0deg) scale(1.05) translateZ(120px) translateY(0px); }
-          50% { transform: translate(-50%, -50%) rotateY(0deg) scale(1.05) translateZ(120px) translateY(-12px); }
-          100% { transform: translate(-50%, -50%) rotateY(0deg) scale(1.05) translateZ(120px) translateY(0px); }
+          0% { transform: translate(-50%, -50%) rotateY(0deg) scale(1.05) translateZ(${
+            isMobile ? "60px" : "120px"
+          }) translateY(0px); }
+          50% { transform: translate(-50%, -50%) rotateY(0deg) scale(1.05) translateZ(${
+            isMobile ? "60px" : "120px"
+          }) translateY(-12px); }
+          100% { transform: translate(-50%, -50%) rotateY(0deg) scale(1.05) translateZ(${
+            isMobile ? "60px" : "120px"
+          }) translateY(0px); }
         }
       `}</style>
     </div>

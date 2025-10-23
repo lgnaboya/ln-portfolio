@@ -188,7 +188,7 @@ const ProjectsSection = () => {
 
         {/* Game Development Projects - 3D Circular Gallery */}
         <div className="space-y-8">
-          <h3 className="text-2xl font-bold text-foreground flex items-center gap-3 text-left justify-left py-4">
+          <h3 className="text-xl md:text-2xl font-bold text-foreground flex items-center gap-3 text-left justify-left py-4">
             <span className="w-2 h-8 bg-gradient-primary rounded-full"></span>
             Game Development – UI/UX Design
           </h3>
@@ -198,7 +198,7 @@ const ProjectsSection = () => {
         {/* Web Development Projects - Scroll Stack */}
         <div className="space-y-12">
           <h3
-            className="text-2xl font-bold text-foreground flex items-center gap-3 sticky z-10 bg-background/10 backdrop-blur-sm py-4"
+            className="text-xl md:text-2xl font-bold text-foreground flex items-center gap-3 sticky z-10 bg-background/10 backdrop-blur-sm py-4"
             style={{ top: "80px" }}
           >
             <span className="w-2 h-8 bg-gradient-primary rounded-full"></span>

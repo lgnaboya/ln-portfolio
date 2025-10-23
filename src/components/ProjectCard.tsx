@@ -64,8 +64,8 @@ const ProjectCard = ({
               href={links[0].url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-primary/10 hover:bg-primary/20
-              border border-primary/30 hover:border-primary/50 text-foreground transition-all duration-200 hover:scale-105 text-sm font-medium"
+              className="inline-flex items-center gap-2 px-3 py-2.5 rounded-md bg-primary/10 hover:bg-primary/20
+              border border-primary/30 hover:border-primary/50 text-foreground transition-all duration-200 hover:scale-105 text-xs md:text-sm font-medium"
             >
               {links[0].label}
               <ExternalLink className="w-4 h-4" />

@@ -253,7 +253,7 @@ const Hero = () => {
         {/* Hero Text */}
         <div className="space-y-6 animate-fade-in-up">
           <div className="space-y-8 pt-20">
-            <h1 className="text-4xl md:text-lg font-bold leading-tight text-justify">
+            <h1 className="text-xl text-center md:text-lg font-bold leading-tight md:text-justify">
               <span className="bg-gradient-primary bg-clip-text text-transparent">
                 ✨ Crafting user-centered experiences
               </span>
