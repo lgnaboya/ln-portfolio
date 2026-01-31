@@ -181,8 +181,7 @@ const ProjectsSection = () => {
             </span>
           </h2>
           <p className="text-muted-foreground text-lg">
-            A showcase of innovative projects that blend creativity with
-            technology, highlighting my skills in web and game development.
+            A curated selection of projects that showcase my ability to blend design, functionality, and innovation across different platforms.
           </p>
         </div>
 

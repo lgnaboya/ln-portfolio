@@ -224,7 +224,7 @@ const Hero = () => {
                       Loudette Glea Naboya
                     </h3>
                     <p className="text-base text-primary font-medium">
-                      Game & Web Experiences
+                      Mobile & Web Designer
                     </p>
 
                     {/* Badge details */}
@@ -252,28 +252,31 @@ const Hero = () => {
 
         {/* Hero Text */}
         <div className="space-y-6 animate-fade-in-up">
-          <div className="space-y-8 pt-20">
-            <h1 className="text-xl text-center md:text-lg font-bold leading-tight md:text-justify">
+          <div className="space-y-8 pt-40">
+            <h1 className="text-lg text-center md:text-lg font-bold leading-tight md:text-justify">
               <span className="bg-gradient-primary bg-clip-text text-transparent">
-                ✨ Crafting user-centered experiences
+                ⦿ Designing and building user-centered digital experiences
               </span>
               <span className="text-foreground font-medium">
                 {" "}
-                for games and the web.
+                for web and mobile.
               </span>
             </h1>
 
-            <div className="space-y-8 text-muted-foreground text-lg leading-relaxed text-justify">
+            <div className="space-y-4 text-muted-foreground text-md leading-relaxed text-justify">
               <p>
-                I design and build user-centered digital experiences for games
-                and web applications. With a balance of creativity and technical
-                expertise, I craft intuitive, engaging, and impactful products.
+                I design and build user-centered digital products that balance
+                creativity with technical precision. From responsive websites
+                and interactive platforms to mobile applications and games, my
+                work focuses on creating intuitive, engaging, and impactful user
+                experiences.
               </p>
 
               <p>
                 Driven by curiosity and continuous learning, I thrive in dynamic
-                environments where I can explore new tools, solve complex
-                problems, and deliver solutions that provide real value.
+                environments where I explore new tools, solve complex problems,
+                and transform ideas into functional solutions that deliver
+                real-world value.
               </p>
             </div>
 
