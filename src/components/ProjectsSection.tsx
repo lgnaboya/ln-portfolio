@@ -7,6 +7,8 @@ import danceFitness from "@/assets/dance-fitness.png";
 import echoesUnity from "@/assets/echoes-unity.png";
 import fightFit from "@/assets/fight-fit.png";
 
+const SHOW_WEB_PROJECTS = false;
+
 const ProjectsSection = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
   const sectionRef = useRef(null);
@@ -195,6 +197,7 @@ const ProjectsSection = () => {
         </div>
 
         {/* Web Development Projects - Scroll Stack */}
+        {SHOW_WEB_PROJECTS && (
         <div className="space-y-12">
           <h3
             className="text-xl md:text-2xl font-bold text-foreground flex items-center gap-3 sticky z-10 bg-background/10 backdrop-blur-sm py-4"
@@ -242,6 +245,7 @@ const ProjectsSection = () => {
             })}
           </div>
         </div>
+        )}
       </div>
     </section>
   );
