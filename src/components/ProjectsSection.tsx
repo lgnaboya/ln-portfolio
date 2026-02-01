@@ -5,6 +5,8 @@ import ProjectCard from "./ProjectCard";
 import aiRepTracker from "@/assets/ai-rep-tracker.png";
 import danceFitness from "@/assets/dance-fitness.png";
 
+import { ChevronRight } from "lucide-react";
+
 const SHOW_WEB_PROJECTS = false;
 
 const ProjectsSection = () => {
