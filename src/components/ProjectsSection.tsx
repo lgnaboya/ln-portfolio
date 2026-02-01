@@ -4,8 +4,6 @@ import ProjectCard from "./ProjectCard";
 
 import aiRepTracker from "@/assets/ai-rep-tracker.png";
 import danceFitness from "@/assets/dance-fitness.png";
-import echoesUnity from "@/assets/echoes-unity.png";
-import fightFit from "@/assets/fight-fit.png";
 
 const SHOW_WEB_PROJECTS = false;
 
@@ -117,45 +115,66 @@ const ProjectsSection = () => {
       imageBackground: aiRepTracker,
     },
     {
-      title: "Echoes of Unity",
-      date: "Obstacle Course Game",
+      title: "Rental Locker System",
+      date: "May 2024",
       description:
-        "An interactive motion-based obstacle course game where real-life movements control the character to overcome in-game challenges. Designed to promote fitness and teamwork, blends physical activity with cooperative gameplay.",
+        "Mobile application for seamless locker rental service with face recognition and integrated payment processing.",
       features: [
-        "Motion-based controls (run, squat, jump, etc)",
-        "Fitness-based progression",
-        "Co-op mechanics",
+        "Designed UI for mobile locker rental app",
+        "Contributed to backend (booking and payment features)",
+        "User-friendly booking system",
       ],
+      techStack: ["Java", "Firebase", "Android Studio"],
       links: [
         {
           label: "Figma Design",
-          url: "https://www.figma.com/design/QaruR0WTCANbhGQlB6HhKd/Game-Development?node-id=0-1&t=7qn110FlflCirXFz-1",
+          url: "https://www.figma.com/design/QaruR0WTCANbhGQlB6HhKd/Game-Development?node-id=1005-58&t=7qn110FlflCirXFz-1",
         },
       ],
-      imageBackground: echoesUnity,
+      imageBackground: danceFitness,
     },
     {
-      title: "Fight Fit",
-      date: "Mobile AI-Tracked Boxing Game",
+      title: "NoFace",
+      date: "Anonymous Social | Recent",
       description:
-        "Mobile boxing game with AI motion tracking, blending fitness with engaging gameplay.",
+        "Web-based anonymous chat platform enabling meaningful conversations through voice and text.",
       features: [
-        "AI-powered motion tracking",
-        "VR boxing-inspired mechanics",
-        "Mobile-first design",
-        "Gamified workouts",
+        "Anonymous voice and text chat",
+        "Real-time messaging interface",
+        "Conversation starter interactions",
+        "Accessibility and privacy-first design",
       ],
+      techStack: ["React", "CSS/HTML", "Express.js", "ASP.NET"],
       links: [
         {
           label: "Figma Design",
-          url: "https://www.figma.com/design/QaruR0WTCANbhGQlB6HhKd/Game-Development?node-id=1005-57&t=7qn110FlflCirXFz-1",
+          url: "https://www.figma.com/site/Y8BTZ51of4SKeJaAdies0s/NoFace?node-id=0-1&t=nBWA3bPW1E4LASa2-1",
         },
       ],
-      imageBackground: fightFit,
+      imageBackground: danceFitness,
     },
     {
-      title: "Dance Fitness",
-      date: "Interactive Dance Game",
+      title: "E-commerce Bookstore",
+      date: "TESDA Web Design | September 2024",
+      description:
+        "Responsive e-commerce platform for book sales with categorized listings and custom ordering system.",
+      features: [
+        "Built responsive website with categorized book listings",
+        "Implemented custom order forms",
+        "Designed modern and accessible user interface",
+      ],
+      techStack: ["HTML", "CSS", "Adobe Photoshop"],
+      links: [
+        {
+          label: "Figma Design",
+          url: "https://www.figma.com/design/QaruR0WTCANbhGQlB6HhKd/Game-Development?node-id=1005-58&t=7qn110FlflCirXFz-1",
+        },
+      ],
+      imageBackground: danceFitness,
+    },
+    {
+      title: "HIIT Compete",
+      date: "Landing Page",
       description:
         "A Unity-based rhythm game designed to deliver an engaging and intuitive dance experience. Players move in sync with the music, matching falling tiles through responsive and visually guided cues.",
       features: [
@@ -171,80 +190,136 @@ const ProjectsSection = () => {
       ],
       imageBackground: danceFitness,
     },
+    // {
+    //   title: "Echoes of Unity",
+    //   date: "Obstacle Course Game",
+    //   description:
+    //     "An interactive motion-based obstacle course game where real-life movements control the character to overcome in-game challenges. Designed to promote fitness and teamwork, blends physical activity with cooperative gameplay.",
+    //   features: [
+    //     "Motion-based controls (run, squat, jump, etc)",
+    //     "Fitness-based progression",
+    //     "Co-op mechanics",
+    //   ],
+    //   links: [
+    //     {
+    //       label: "Figma Design",
+    //       url: "https://www.figma.com/design/QaruR0WTCANbhGQlB6HhKd/Game-Development?node-id=0-1&t=7qn110FlflCirXFz-1",
+    //     },
+    //   ],
+    //   imageBackground: echoesUnity,
+    // },
+    // {
+    //   title: "Fight Fit",
+    //   date: "Mobile AI-Tracked Boxing Game",
+    //   description:
+    //     "Mobile boxing game with AI motion tracking, blending fitness with engaging gameplay.",
+    //   features: [
+    //     "AI-powered motion tracking",
+    //     "VR boxing-inspired mechanics",
+    //     "Mobile-first design",
+    //     "Gamified workouts",
+    //   ],
+    //   links: [
+    //     {
+    //       label: "Figma Design",
+    //       url: "https://www.figma.com/design/QaruR0WTCANbhGQlB6HhKd/Game-Development?node-id=1005-57&t=7qn110FlflCirXFz-1",
+    //     },
+    //   ],
+    //   imageBackground: fightFit,
+    // },
+    // {
+    //   title: "Dance Fitness",
+    //   date: "Interactive Dance Game",
+    //   description:
+    //     "A Unity-based rhythm game designed to deliver an engaging and intuitive dance experience. Players move in sync with the music, matching falling tiles through responsive and visually guided cues.",
+    //   features: [
+    //     "Responsive motion-tracking interface",
+    //     "Rhythm-based gameplay with feedback",
+    //     "Dynamic tile-matching mechanics",
+    //   ],
+    //   links: [
+    //     {
+    //       label: "Figma Design",
+    //       url: "https://www.figma.com/design/QaruR0WTCANbhGQlB6HhKd/Game-Development?node-id=1005-58&t=7qn110FlflCirXFz-1",
+    //     },
+    //   ],
+    //   imageBackground: danceFitness,
+    // },
   ];
 
   return (
     <section ref={sectionRef} id="projects" className="py-4 px-6 relative">
       <div className="max-w-6xl mx-auto space-y-12">
         <div className="text-center space-y-4 animate-fade-in">
-          <h2 className="text-4xl md:text-5xl font-bold">
+          <h2 className="text-4xl font-extrabold">
             <span className="bg-gradient-primary bg-clip-text text-transparent">
               Featured Projects
             </span>
           </h2>
           <p className="text-muted-foreground text-lg">
-            A curated selection of projects that showcase my ability to blend design, functionality, and innovation across different platforms.
+            A curated selection of projects that showcase my ability to blend
+            design, functionality, and innovation across different platforms.
           </p>
         </div>
 
         {/* Game Development Projects - 3D Circular Gallery */}
-        <div className="space-y-8">
-          <h3 className="text-xl md:text-2xl font-bold text-foreground flex items-center gap-3 text-left justify-left py-4">
+        <div className="space-y-2">
+          {/* <h3 className="text-xl md:text-2xl font-bold text-foreground flex items-center gap-3 text-left justify-left py-4">
             <span className="w-2 h-8 bg-gradient-primary rounded-full"></span>
             Game Development – UI/UX Design
-          </h3>
+          </h3> */}
           <CircularGallery3D projects={gameProjects} />
         </div>
 
         {/* Web Development Projects - Scroll Stack */}
         {SHOW_WEB_PROJECTS && (
-        <div className="space-y-12">
-          <h3
-            className="text-xl md:text-2xl font-bold text-foreground flex items-center gap-3 sticky z-10 bg-background/10 backdrop-blur-sm py-4"
-            style={{ top: "80px" }}
-          >
-            <span className="w-2 h-8 bg-gradient-primary rounded-full"></span>
-            Front-End Development
-          </h3>
+          <div className="space-y-12">
+            <h3
+              className="text-xl md:text-2xl font-bold text-foreground flex items-center gap-3 sticky z-10 bg-background/10 backdrop-blur-sm py-4"
+              style={{ top: "80px" }}
+            >
+              <span className="w-2 h-8 bg-gradient-primary rounded-full"></span>
+              Front-End Development
+            </h3>
 
-          <div
-            className="relative"
-            style={{ minHeight: `${webProjects.length * 550}px` }}
-          >
-            {webProjects.map((project, index) => {
-              const baseProgress = gameProjects.length;
-              const progress =
-                scrollProgress * (gameProjects.length + webProjects.length) -
-                baseProgress -
-                index;
+            <div
+              className="relative"
+              style={{ minHeight: `${webProjects.length * 550}px` }}
+            >
+              {webProjects.map((project, index) => {
+                const baseProgress = gameProjects.length;
+                const progress =
+                  scrollProgress * (gameProjects.length + webProjects.length) -
+                  baseProgress -
+                  index;
 
-              const isActive = progress >= 0 && progress <= 1; // ✅ detects active
-              const isPast = progress > 1;
+                const isActive = progress >= 0 && progress <= 1; // ✅ detects active
+                const isPast = progress > 1;
 
-              return (
-                <div
-                  key={index}
-                  className="sticky w-full transition-all duration-300"
-                  style={{
-                    top: `${150 + index * 40}px`,
-                    zIndex: webProjects.length - index + (isPast ? 100 : 0),
-                    opacity: isPast ? 0 : 1,
-                    transform: isPast
-                      ? "translateY(-100px) scale(0.85)"
-                      : isActive
-                      ? `translateY(${-progress * 50}px) scale(${
-                          1 - progress * 0.05
-                        })`
-                      : "translateY(0) scale(1)",
-                  }}
-                >
-                  {/*Pass the scroll-based highlight state */}
-                  <ProjectCard {...project} delay={0} isActive={isActive} />
-                </div>
-              );
-            })}
+                return (
+                  <div
+                    key={index}
+                    className="sticky w-full transition-all duration-300"
+                    style={{
+                      top: `${150 + index * 40}px`,
+                      zIndex: webProjects.length - index + (isPast ? 100 : 0),
+                      opacity: isPast ? 0 : 1,
+                      transform: isPast
+                        ? "translateY(-100px) scale(0.85)"
+                        : isActive
+                          ? `translateY(${-progress * 50}px) scale(${
+                              1 - progress * 0.05
+                            })`
+                          : "translateY(0) scale(1)",
+                    }}
+                  >
+                    {/*Pass the scroll-based highlight state */}
+                    <ProjectCard {...project} delay={0} isActive={isActive} />
+                  </div>
+                );
+              })}
+            </div>
           </div>
-        </div>
         )}
       </div>
     </section>

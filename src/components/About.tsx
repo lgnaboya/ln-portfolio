@@ -6,14 +6,15 @@ const TechnicalSkills: React.FC = () => {
       title: "Design & Prototyping",
       frontColor: "from-pink-200/10 to-purple-900/20",
       skills: [
-        "UI/UX Design",
         "Game Design",
-        "Prototyping",
+        "Wireframing & Prototyping",
         "Figma",
         "Adobe Suite",
+        "UI/UX Design",
       ],
       description:
-        "Crafting intuitive and visually engaging user experiences across web and game interfaces. I create functional prototypes and wireframes that prioritize usability, accessibility, and creative flow. Skilled in leveraging tools like Figma for rapid prototyping and the Adobe Suite for high-quality visual and branding assets.",
+        "Crafting intuitive and visually engaging user experiences across web and mobile interfaces. I create functional prototypes and wireframes that prioritize usability, accessibility, and creative flow.",
+      //Skilled in leveraging tools like Figma for rapid prototyping and the Adobe Suite for high-quality visual and branding assets.
     },
     {
       title: "Development",
@@ -27,7 +28,7 @@ const TechnicalSkills: React.FC = () => {
         "Front-End Development",
       ],
       description:
-        "My development experience spans both web and application environments. I’m proficient in building responsive, dynamic interfaces using modern frameworks. My approach focuses on writing clean, maintainable code while ensuring optimized performance and seamless user experience across devices.",
+        "Developing applications across both web and mobile environments. I specialize in building responsive, dynamic interfaces using modern frameworks, with a focus on intuitive user experiences, clean and maintainable code, and optimized performance across devices.",
     },
   ];
 
@@ -39,15 +40,14 @@ const TechnicalSkills: React.FC = () => {
       <div className="max-w-6xl mx-auto space-y-12">
         {/* Header */}
         <div className="text-center space-y-4 animate-fade-in">
-          <h2 className="text-4xl md:text-5xl font-bold">
+          <h2 className="text-4xl font-extrabold">
             <span className="bg-gradient-primary bg-clip-text text-transparent">
               Technical Skills
             </span>
           </h2>
           <p className="text-muted-foreground text-md max-w-2xl mx-auto">
-            A comprehensive overview of my technical expertise across various
-            areas, continuously developed through hands-on project experience
-            and creative exploration.
+            A comprehensive overview of my technical expertise, continuously
+            refined through hands-on projects and creative exploration.
           </p>
         </div>
 

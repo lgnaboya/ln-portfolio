@@ -7,7 +7,7 @@ const Contact = () => {
         {/* Heading */}
         <div className="flex justify-center items-center gap-2">
           <Handshake className="w-8 h-8 text-primary" />
-          <h2 className="text-4xl md:text-5xl font-bold">
+          <h2 className="text-4xl font-extrabold">
             <span className="bg-gradient-primary bg-clip-text text-transparent">
               Let’s Connect
             </span>
@@ -23,12 +23,12 @@ const Contact = () => {
         {/* Contact Info */}
         <div className="space-y-4 text-sm md:text-base text-foreground font-medium">
           <div className="flex items-center justify-center gap-3">
-            <Mail className="w-5 h-5 text-primary" />
+            <Mail className="w-5 h-5 text-gray-500" />
             <span>
-              <strong>Email:</strong>{" "}
+              <strong className="text-gray-500">Email:</strong>{" "}
               <a
                 href="mailto:loudettenaboya@gmail.com"
-                className="text-primary hover:underline"
+                className="text-white hover:underline"
               >
                 loudettgleacnaboya@gmail.com
               </a>
@@ -36,12 +36,12 @@ const Contact = () => {
           </div>
 
           <div className="flex items-center justify-center gap-3">
-            <Phone className="w-5 h-5 text-primary" />
+            <Phone className="w-5 h-5 text-gray-500" />
             <span>
-              <strong>Phone:</strong>{" "}
+              <strong className="text-gray-500">Phone:</strong>{" "}
               <a
                 href="tel:+639214489298"
-                className="text-primary hover:underline"
+                className="text-white hover:underline"
               >
                 +63 921 448 9298
               </a>
@@ -49,9 +49,10 @@ const Contact = () => {
           </div>
 
           <div className="flex items-center justify-center gap-3">
-            <Globe className="w-5 h-5 text-primary" />
+            <Globe className="w-5 h-5 text-gray-500" />
             <span>
-              <strong>Location:</strong> Available Worldwide
+              <strong className="text-gray-500">Location:</strong> Available
+              Worldwide
             </span>
           </div>
         </div>

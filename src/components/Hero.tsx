@@ -223,7 +223,7 @@ const Hero = () => {
                     <h3 className="text-xl font-bold text-foreground pt-5">
                       Loudette Glea Naboya
                     </h3>
-                    <p className="text-base text-primary font-medium">
+                    <p className="text-base text-cyan-500 font-medium">
                       Mobile & Web Designer
                     </p>
 
@@ -284,7 +284,7 @@ const Hero = () => {
             <div className="pt-4 flex justify-center">
               <a
                 href="#projects"
-                className="group flex items-center gap-2 text-primary font-semibold text-medium hover:text-primary/80 transition-colors"
+                className="group flex items-center gap-2 text-gray-600 font-semibold text-medium hover:text-primary/80 transition-colors"
               >
                 View My Work
                 <svg
