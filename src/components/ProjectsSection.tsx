@@ -5,8 +5,6 @@ import ProjectCard from "./ProjectCard";
 import aiRepTracker from "@/assets/ai-rep-tracker.png";
 import danceFitness from "@/assets/dance-fitness.png";
 
-import { ChevronRight } from "lucide-react";
-
 const SHOW_WEB_PROJECTS = false;
 
 const ProjectsSection = () => {
@@ -95,14 +93,14 @@ const ProjectsSection = () => {
   const gameProjects = [
     {
       title: "AI Rep Tracker",
-      date: "Fitness App",
+      date: "Mobile Fitness Application",
       description:
-        "A fitness application that auto-tracks exercise reps and enables competitive workouts with real-time video.",
+        "Automatically tracks and counts exercise repetitions. It enables users to engage in competitive workouts through real-time video, making training more interactive, accurate, and motivating.",
       features: [
-        "Automatic rep counting",
-        "Multiplayer competition",
-        "Video communication",
-        "Live rep sync",
+        "Automatic Rep Counting",
+        "Multiplayer Competition",
+        "Video Communication",
+        "Live Rep Synchronization",
       ],
       links: [
         {
@@ -118,15 +116,15 @@ const ProjectsSection = () => {
     },
     {
       title: "Rental Locker System",
-      date: "May 2024",
+      date: "Mobile Application",
       description:
-        "Mobile application for seamless locker rental service with face recognition and integrated payment processing.",
+        "Designed for secure locker rentals, utilizing face recognition for authentication and integrated digital payments. It provides a seamless and contactless experience for users managing locker access and transactions.",
       features: [
-        "Designed UI for mobile locker rental app",
-        "Contributed to backend (booking and payment features)",
-        "User-friendly booking system",
+        "Locker Rental Management",
+        "Face Recognition Authentication",
+        "User-friendly Booking & Payments",
+        "Real-time Notifications & Transactions",
       ],
-      techStack: ["Java", "Firebase", "Android Studio"],
       links: [
         {
           label: "Figma Design",
@@ -137,14 +135,14 @@ const ProjectsSection = () => {
     },
     {
       title: "NoFace",
-      date: "Anonymous Social | Recent",
+      date: "Anonymous Social Web Platform",
       description:
-        "Web-based anonymous chat platform enabling meaningful conversations through voice and text.",
+        "Web-based anonymous social platform that enables meaningful conversations through voice and text while prioritizing user privacy. By removing identity-based pressure, it encourages authentic and open communication.",
       features: [
-        "Anonymous voice and text chat",
-        "Real-time messaging interface",
-        "Conversation starter interactions",
-        "Accessibility and privacy-first design",
+        "Anonymous Voice & Text Chat",
+        "Real-time Messaging Interface",
+        "Conversation Starter Interactions",
+        "Privacy-first and Accessible Design",
       ],
       techStack: ["React", "CSS/HTML", "Express.js", "ASP.NET"],
       links: [
@@ -157,15 +155,14 @@ const ProjectsSection = () => {
     },
     {
       title: "E-commerce Bookstore",
-      date: "TESDA Web Design | September 2024",
+      date: "TESDA Web Design",
       description:
-        "Responsive e-commerce platform for book sales with categorized listings and custom ordering system.",
+        "An e-commerce bookstore platform built with responsiveness and usability in mind. The system allows users to browse categorized book collections and place orders through a custom ordering workflow.",
       features: [
-        "Built responsive website with categorized book listings",
-        "Implemented custom order forms",
-        "Designed modern and accessible user interface",
+        "Categorized Book Listings",
+        "Custom Order Forms",
+        "Modern & Accessible User Interface",
       ],
-      techStack: ["HTML", "CSS", "Adobe Photoshop"],
       links: [
         {
           label: "Figma Design",
@@ -178,11 +175,12 @@ const ProjectsSection = () => {
       title: "HIIT Compete",
       date: "Landing Page",
       description:
-        "A Unity-based rhythm game designed to deliver an engaging and intuitive dance experience. Players move in sync with the music, matching falling tiles through responsive and visually guided cues.",
+        "Competitive high-intensity interval training (HIIT) fitness platform that transforms workouts into real-time challenges with global rankings. The landing page showcases live leaderboards, performance-based rankings, and community competition, motivating users to train harder and climb the ranks.",
       features: [
-        "Responsive motion-tracking interface",
-        "Rhythm-based gameplay with feedback",
-        "Dynamic tile-matching mechanics",
+        "Global & Session-based Leaderboards",
+        "Competitive HIIT Challenges",
+        "Real-time Performance Tracking",
+        "Motivating Competitive Experience",
       ],
       links: [
         {

@@ -10,7 +10,7 @@ const TechnicalSkills: React.FC = () => {
         "Wireframing & Prototyping",
         "Figma",
         "Adobe Suite",
-        "UI/UX Design",
+        // "UI/UX Design",
       ],
       description:
         "Crafting intuitive and visually engaging user experiences across web and mobile interfaces. I create functional prototypes and wireframes that prioritize usability, accessibility, and creative flow.",
@@ -25,7 +25,7 @@ const TechnicalSkills: React.FC = () => {
         "React",
         "PHP/MySQL",
         "Java",
-        "Front-End Development",
+        // "Front-End Development",
       ],
       description:
         "Developing applications across both web and mobile environments. I specialize in building responsive, dynamic interfaces using modern frameworks, with a focus on intuitive user experiences, clean and maintainable code, and optimized performance across devices.",
